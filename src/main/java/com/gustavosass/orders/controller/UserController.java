@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gustavosass.orders.dto.PasswordDTO;
 import com.gustavosass.orders.dto.RegisterDTO;
 import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.mapper.UserMapper;
 import com.gustavosass.orders.model.User;
-import com.gustavosass.orders.service.AuthenticationService;
 import com.gustavosass.orders.service.UserService;
 
 @RestController
@@ -53,6 +53,13 @@ public class UserController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/password/{id}")
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody PasswordDTO passwordDTO) {
+        userService.updatePassword(id, passwordDTO.getPassword());
         return ResponseEntity.noContent().build();
     }
 }

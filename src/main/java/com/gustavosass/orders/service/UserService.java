@@ -2,7 +2,9 @@ package com.gustavosass.orders.service;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gustavosass.orders.model.User;
@@ -10,14 +12,16 @@ import com.gustavosass.orders.repository.UserRepository;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public User findById(Long id) {
@@ -33,9 +37,10 @@ public class UserService {
     }
     
     public User update(User user) {
-        if (!userRepository.existsById(user.getId())) {
-            throw new NoSuchElementException("User not found with id: " + user.getId());
-        }
+        User userDb = userRepository.findById(user.getId()).orElseThrow(() -> new NoSuchElementException("User not found with id"));
+        
+        user.setPassword(userDb.getPassword());
+        
         return userRepository.save(user);
     }
 
@@ -44,5 +49,13 @@ public class UserService {
             throw new NoSuchElementException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
+    }
+
+    public void updatePassword(Long id, String password) {
+        User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found with id"));
+        
+        userDb.setPassword(passwordEncoder.encode(password));
+        
+        userRepository.save(userDb);
     }
 }

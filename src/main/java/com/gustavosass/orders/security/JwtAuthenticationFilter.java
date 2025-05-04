@@ -42,9 +42,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         
-        // Verifica se há token e se está no formato correto
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            ExceptionResponse exceptionResponse = new ExceptionResponse(
+                "Bad header format", "Authorization is blank or not in Bearer format" 
+            );
+            response.getWriter().write(exceptionResponse.toString());
             return;
         }
         
