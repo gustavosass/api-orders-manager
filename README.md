@@ -7,6 +7,7 @@ A API Orders Manager é um sistema desenvolvido com o objetivo de gerenciar dive
 ## Módulos
 
 - **Usuários**
+- **Clientes**
 - **Produtos**
 - **Pedidos**
 - **Compras**

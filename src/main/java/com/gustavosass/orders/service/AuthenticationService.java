@@ -3,6 +3,7 @@ package com.gustavosass.orders.service;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.dto.AuthenticationRequestDTO;
 import com.gustavosass.orders.dto.AuthenticationResponseDTO;
 import com.gustavosass.orders.dto.RegisterDTO;
+import com.gustavosass.orders.mapper.UserMapper;
 import com.gustavosass.orders.model.User;
 import com.gustavosass.orders.security.JwtService;
 
@@ -32,19 +34,20 @@ public class AuthenticationService {
     private final JwtService jwtService;
     @Autowired
     private final AuthenticationManager authenticationManager;
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
 
-    public User register(RegisterDTO request) {
+    public User register(RegisterDTO registerDTO) {
 
-        if (userService.existsByEmail(request.getEmail())) {
+        if (userService.existsByEmail(registerDTO.getEmail())) {
             throw new RuntimeException("Email already exist");
         }
-        
-        var user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
+
+        User user = userMapper.toEntity(registerDTO);
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         
         return userService.create(user);
     }
@@ -58,13 +61,10 @@ public class AuthenticationService {
         );
         
         var user = userService.findByEmail(request.getEmail());
-        var jwtToken = jwtService.generateToken(user);
+        var accessToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
                 
-        return AuthenticationResponseDTO.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        return builderAuthenticationResponseDTO(accessToken, refreshToken);
     }
 
     public void refreshToken(
@@ -86,15 +86,19 @@ public class AuthenticationService {
             var user = userService.findByEmail(userEmail);
             
             if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                                
-                var authResponse = AuthenticationResponseDTO.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
+                var accessToken = jwtService.generateToken(user);    
+                var authResponse = builderAuthenticationResponseDTO(accessToken, refreshToken);
                 
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    private AuthenticationResponseDTO builderAuthenticationResponseDTO(String jwtToken, String refreshToken) {
+        return AuthenticationResponseDTO.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .expiresIn(jwtExpiration)
+                .build();
     }
 }

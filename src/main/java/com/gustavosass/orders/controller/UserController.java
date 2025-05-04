@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,16 +23,15 @@ import com.gustavosass.orders.service.UserService;
 public class UserController {
 
     @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody RegisterDTO request) {
-        User user = authenticationService.register(request);
+    public ResponseEntity<UserDTO> create(@RequestBody RegisterDTO registerDTO) {
+        User user = userMapper.toEntity(registerDTO);
+        user = userService.create(user);
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
     
@@ -39,5 +39,19 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         User user = userService.findById(id);
         return ResponseEntity.ok(userMapper.toDTO(user));
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+        user = userService.update(user);
+        return ResponseEntity.ok(userMapper.toDTO(user));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

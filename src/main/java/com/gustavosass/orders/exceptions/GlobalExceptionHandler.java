@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -39,6 +41,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ExceptionResponse> handleNoSuchElementException(NoSuchElementException noSuchElementException, WebRequest webRequest) {
 		return new ResponseEntity<>(newExceptionResponse(noSuchElementException, webRequest), HttpStatus.NOT_FOUND);
 	}
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ExceptionResponse> handleExpiredJwtException(ExpiredJwtException expiredJwtException, WebRequest webRequest) {
+        return new ResponseEntity<>(new ExceptionResponse("Token expired. Please log in again.", webRequest.getDescription(false)), HttpStatus.UNAUTHORIZED);
+    }
 
     private ExceptionResponse newExceptionResponse(Throwable throwable, WebRequest webRequest) {
 		return new ExceptionResponse(throwable.getMessage(), webRequest.getDescription(false));

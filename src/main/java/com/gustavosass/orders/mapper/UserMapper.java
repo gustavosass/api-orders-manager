@@ -18,6 +18,15 @@ public class UserMapper {
                 .build();
     }
 
+    public User toEntity(UserDTO userDTO) {
+        return User.builder()
+                .id(userDTO.getId())
+                .name(userDTO.getName())
+                .email(userDTO.getEmail())
+                .role(userDTO.getRole())
+                .build();
+    }
+
     public UserDTO toDTO(User user) {
         return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getRole());
     }

@@ -24,11 +24,25 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id not found"));
     }
 
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public User create(User user) {
         return userRepository.save(user);
     }
+    
+    public User update(User user) {
+        if (!userRepository.existsById(user.getId())) {
+            throw new NoSuchElementException("User not found with id: " + user.getId());
+        }
+        return userRepository.save(user);
+    }
 
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public void delete(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchElementException("User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
     }
 }

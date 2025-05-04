@@ -8,6 +8,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import com.gustavosass.orders.exceptions.ExceptionResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -67,9 +71,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
+        } catch (ExpiredJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            ExceptionResponse exceptionResponse = new ExceptionResponse(
+                "Token expired",
+                e.getMessage()
+            );
+            response.getWriter().write(exceptionResponse.toString());
+            return;
         } catch (Exception e) {
-            logger.error("Não foi possível autenticar o usuário: {}", e);
-            // Não propaga a exceção, apenas continua o fluxo sem autenticar
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            ExceptionResponse exceptionResponse = new ExceptionResponse(
+                "Failed to authenticate user",
+                e.getMessage()
+            );
+            response.getWriter().write(exceptionResponse.toString());
+            return;
         }
         
         filterChain.doFilter(request, response);
