@@ -12,6 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.gustavosass.orders.repository.UserRepository;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -43,4 +47,22 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        final String securitySchemeName = "Bearer Authentication";
+
+        return new OpenAPI()
+                .info(new Info()
+                    .title("API Orders Management")
+                    .version("1.0"))
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new io.swagger.v3.oas.models.Components()
+                    .addSecuritySchemes(securitySchemeName,
+                        new SecurityScheme()
+                            .name(securitySchemeName)
+                            .type(SecurityScheme.Type.HTTP)
+                            .scheme("Bearer")
+                            .bearerFormat("JWT")));
+        }
 }

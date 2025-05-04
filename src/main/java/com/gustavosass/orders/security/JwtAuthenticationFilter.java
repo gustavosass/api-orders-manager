@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             ExceptionResponse exceptionResponse = new ExceptionResponse(
-                "Token expired",
+                "Expired token",
                 e.getMessage()
             );
             response.getWriter().write(exceptionResponse.toString());
@@ -84,7 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             ExceptionResponse exceptionResponse = new ExceptionResponse(
-                "Failed to authenticate user",
+                "Failed to authenticate",
                 e.getMessage()
             );
             response.getWriter().write(exceptionResponse.toString());
