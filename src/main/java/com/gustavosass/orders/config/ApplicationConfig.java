@@ -18,6 +18,9 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
@@ -64,5 +67,10 @@ public class ApplicationConfig {
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("Bearer")
                             .bearerFormat("JWT")));
-        }
+    }
+
+    @Bean
+    public Validator validator() {
+        return Validation.buildDefaultValidatorFactory().getValidator();
+    }
 }

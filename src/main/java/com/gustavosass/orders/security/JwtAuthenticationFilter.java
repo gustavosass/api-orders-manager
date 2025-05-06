@@ -11,6 +11,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 
 import java.io.IOException;
+import java.util.List;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,8 +34,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        // Endpoint autenticação não deve passar pelo filtro
-        if (request.getServletPath().contains("/api/v1/auth")) {
+
+        List<String> allowedPaths = List.of(
+            "/api/v1/auth",
+            "/v3/api-docs",
+            "/swagger-ui",
+            "/swagger-ui.html"
+        );
+
+        boolean isAllowedPath = allowedPaths.stream().anyMatch(request.getServletPath()::startsWith);
+
+        if (isAllowedPath) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -75,15 +86,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            ExceptionResponse exceptionResponse = new ExceptionResponse(
-                "Expired token",
-                e.getMessage()
-            );
-            response.getWriter().write(exceptionResponse.toString());
-            return;
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");

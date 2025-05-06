@@ -1,15 +1,19 @@
 package com.gustavosass.orders.exceptions;
 
 import java.util.NoSuchElementException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.validation.FieldError;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -47,6 +51,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse("Token expired. Please log in again.", webRequest.getDescription(false)), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest webRequest) {
+        StringBuilder message = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            message.append(fieldError.getDefaultMessage());
+        });
+        
+        return ResponseEntity.badRequest()
+            .body(new ExceptionResponse(
+                message.toString().trim(),
+                null
+            ));
+    }
+    
     private ExceptionResponse newExceptionResponse(Throwable throwable, WebRequest webRequest) {
 		return new ExceptionResponse(throwable.getMessage(), webRequest.getDescription(false));
 	}

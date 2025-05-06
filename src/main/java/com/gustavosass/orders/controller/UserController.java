@@ -1,5 +1,7 @@
 package com.gustavosass.orders.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,8 @@ import com.gustavosass.orders.mapper.UserMapper;
 import com.gustavosass.orders.model.User;
 import com.gustavosass.orders.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -27,14 +31,6 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody RegisterDTO registerDTO) {
-        User user = userMapper.toEntity(registerDTO);
-        user = userService.create(user);
-        return ResponseEntity.ok(userMapper.toDTO(user));
-    }
     
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
@@ -42,10 +38,25 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
 
-    @PutMapping
-    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO) {
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<User> users = userService.findAll();
+        List<UserDTO> usersDTO = users.stream().map(userMapper::toDTO).toList();
+        return ResponseEntity.ok(usersDTO);
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping
+    public ResponseEntity<UserDTO> create(@Valid @RequestBody RegisterDTO registerDTO) {
+        User user = userMapper.toEntity(registerDTO);
+        user = userService.create(user);
+        return ResponseEntity.ok(userMapper.toDTO(user));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
-        user = userService.update(user);
+        user = userService.update(id, user);
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
 
@@ -57,9 +68,10 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/password/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody PasswordDTO passwordDTO) {
+    @PutMapping("/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody PasswordDTO passwordDTO) {
         userService.updatePassword(id, passwordDTO.getPassword());
         return ResponseEntity.noContent().build();
     }
+
 }

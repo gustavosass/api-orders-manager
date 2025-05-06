@@ -1,5 +1,6 @@
 package com.gustavosass.orders.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,28 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id not found"));
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
     public User create(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     
-    public User update(User user) {
-        User userDb = userRepository.findById(user.getId()).orElseThrow(() -> new NoSuchElementException("User not found with id"));
-        
+    public User update(Long id, User user) {
+        User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if (!userDb.getId().equals(user.getId())) {
+            throw new IllegalArgumentException("User ID mismatch");
+        }
         user.setPassword(userDb.getPassword());
         
         return userRepository.save(user);
@@ -46,13 +58,13 @@ public class UserService {
 
     public void delete(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new NoSuchElementException("User not found with id: " + id);
+            throw new NoSuchElementException("User not found");
         }
         userRepository.deleteById(id);
     }
 
     public void updatePassword(Long id, String password) {
-        User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found with id"));
+        User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         
         userDb.setPassword(passwordEncoder.encode(password));
         
