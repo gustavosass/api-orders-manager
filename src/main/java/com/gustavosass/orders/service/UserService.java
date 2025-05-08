@@ -48,9 +48,7 @@ public class UserService {
     public User update(Long id, User user) {
         User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
 
-        if (!userDb.getId().equals(user.getId())) {
-            throw new IllegalArgumentException("User ID mismatch");
-        }
+        user.setId(id);
         user.setPassword(userDb.getPassword());
         
         return userRepository.save(user);

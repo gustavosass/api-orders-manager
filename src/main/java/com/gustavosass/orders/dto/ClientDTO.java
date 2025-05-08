@@ -1,0 +1,46 @@
+package com.gustavosass.orders.dto;
+
+import java.util.Date;
+
+import com.gustavosass.orders.model.City;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ClientDTO {
+    private Long id;
+    
+    @NotBlank(message = "Nome é obrigatório")
+    private String name;
+    
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
+    private String email;
+    
+    private Date birthDate;
+    
+    private String phone;
+    
+    @NotBlank(message = "Document is required")
+    private String document;
+    
+    private City city;
+    
+    private String street;
+    
+    private String number;
+    
+    private String district;
+    
+    private String complement;
+    
+    private String postalCode;
+}

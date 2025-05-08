@@ -3,7 +3,6 @@ package com.gustavosass.orders.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -149,26 +148,6 @@ class UserServiceTest {
                 () -> userService.update(1L, user));
 
         assertThat(exception.getMessage()).isEqualTo("User not found");
-    }
-
-    @Test
-    @DisplayName("Lançar exceção se id da request for diferente do id do payload")
-    void whenUpdateUserWithDifferentIdThenThrowException() {
-        User updateUser = User.builder()
-                .id(2L)
-                .name("Updated Name")
-                .email("teste@test.com")
-                .password("password")
-                .role(RoleEnum.USER).build();
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> userService.update(1L, updateUser));
-        
-        assertThat(exception.getMessage()).isEqualTo("User ID mismatch");
-        verify(userRepository, never()).save(any(User.class));
-        
     }
 
     @Test
