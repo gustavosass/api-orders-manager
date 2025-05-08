@@ -35,8 +35,9 @@ class PasswordDTOTest {
     void whenPasswordIsNullThenValidationFails() {
         passwordDTO.setPassword(null);
         Set<ConstraintViolation<PasswordDTO>> violations = validator.validate(passwordDTO);
-        assertThat(violations).hasSize(1);
-        assertThat(violations.iterator().next().getMessage()).isEqualTo("Senha não pode ser nula");
+        assertThat(violations).hasSize(2);
+        assertThat(violations).extracting(ConstraintViolation::getMessage)
+                .containsExactlyInAnyOrder("Senha não pode ser nula", "Senha não pode estar em branco");
     }
 
     @Test
