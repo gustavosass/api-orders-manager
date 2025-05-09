@@ -29,18 +29,8 @@ public class ClientDTO {
     
     private String phone;
     
-    @NotBlank(message = "Document is required")
-    private String document;
-    
-    private City city;
-    
-    private String street;
-    
-    private String number;
-    
-    private String district;
-    
-    private String complement;
-    
-    private String postalCode;
+    @NotBlank(message = "Documento é obrigatório")
+    private String document; 
+
+    private AddressDTO addressDTO;
 }

@@ -1,6 +1,7 @@
 package com.gustavosass.orders.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
@@ -8,38 +9,71 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.gustavosass.orders.dto.AddressDTO;
 import com.gustavosass.orders.dto.ClientDTO;
+import com.gustavosass.orders.model.Address;
 import com.gustavosass.orders.model.City;
 import com.gustavosass.orders.model.Client;
 import com.gustavosass.orders.model.State;
 import com.gustavosass.orders.model.Country;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class ClientMapperTest {
 
+    @Autowired
     private ClientMapper clientMapper;
+
     private Client client;
     private ClientDTO clientDTO;
+    private AddressDTO addressDTO;
+    private Address address;
     private City city;
     private State state;
+    private Country country;
 
     @BeforeEach
     void setUp() {
-        clientMapper = new ClientMapper();
+
+        country = Country.builder()
+                .id(1L)
+                .name("Test Country")
+                .build();
 
         state = State.builder()
                 .id(1L)
                 .name("Test State")
                 .initials("TS")
-                .country(Country.builder().id(1L).name("Test Country").build())
+                .country(country)
                 .build();
 
         city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
+                .build();
+
+        address = Address.builder()
+                .id(1L)
+                .city(city)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build();
+
+        addressDTO = AddressDTO.builder()
+                .city(city)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
                 .build();
 
         client = Client.builder()
@@ -49,53 +83,45 @@ class ClientMapperTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
-                .city(city)
-                .street("Test Street")
-                .number("123")
-                .district("Test District")
-                .complement("Test Complement")
-                .postalCode("12345678")
+                .address(address)
                 .build();
 
         clientDTO = ClientDTO.builder()
                 .id(1L)
                 .name("Test Client")
                 .email("test@test.com")
-                .birthDate(new Date())
+                .birthDate(client.getBirthDate())
                 .phone("123456789")
                 .document("12345678900")
-                .city(city)
-                .street("Test Street")
-                .number("123")
-                .district("Test District")
-                .complement("Test Complement")
-                .postalCode("12345678")
+                .addressDTO(addressDTO)
                 .build();
     }
 
     @Test
-    @DisplayName("Convert ClientDTO to Client")
+    @DisplayName("Converter ClientDTO para Client")
     void whenToEntityThenReturnClient() {
-        Client mappedClient = clientMapper.toEntity(clientDTO);
+                
+        Client client = clientMapper.toEntity(clientDTO);
         
-        assertThat(mappedClient).isNotNull();
-        assertThat(mappedClient.getId()).isEqualTo(clientDTO.getId());
-        assertThat(mappedClient.getName()).isEqualTo(clientDTO.getName());
-        assertThat(mappedClient.getEmail()).isEqualTo(clientDTO.getEmail());
-        assertThat(mappedClient.getBirthDate()).isEqualTo(clientDTO.getBirthDate());
-        assertThat(mappedClient.getPhone()).isEqualTo(clientDTO.getPhone());
-        assertThat(mappedClient.getDocument()).isEqualTo(clientDTO.getDocument());
-        assertThat(mappedClient.getCity()).isEqualTo(clientDTO.getCity());
-        assertThat(mappedClient.getStreet()).isEqualTo(clientDTO.getStreet());
-        assertThat(mappedClient.getNumber()).isEqualTo(clientDTO.getNumber());
-        assertThat(mappedClient.getDistrict()).isEqualTo(clientDTO.getDistrict());
-        assertThat(mappedClient.getComplement()).isEqualTo(clientDTO.getComplement());
-        assertThat(mappedClient.getPostalCode()).isEqualTo(clientDTO.getPostalCode());
+        assertThat(client).isNotNull();
+        assertThat(client.getId()).isEqualTo(clientDTO.getId());
+        assertThat(client.getName()).isEqualTo(clientDTO.getName());
+        assertThat(client.getEmail()).isEqualTo(clientDTO.getEmail());
+        assertThat(client.getBirthDate()).isEqualTo(clientDTO.getBirthDate());
+        assertThat(client.getPhone()).isEqualTo(clientDTO.getPhone());
+        assertThat(client.getDocument()).isEqualTo(clientDTO.getDocument());
+        assertThat(client.getAddress().getId()).isEqualTo(clientDTO.getAddressDTO().getId());
+        assertThat(client.getAddress().getStreet()).isEqualTo(clientDTO.getAddressDTO().getStreet());
+        assertThat(client.getAddress().getNumber()).isEqualTo(clientDTO.getAddressDTO().getNumber());
+        assertThat(client.getAddress().getDistrict()).isEqualTo(clientDTO.getAddressDTO().getDistrict());
+        assertThat(client.getAddress().getComplement()).isEqualTo(clientDTO.getAddressDTO().getComplement());
+        assertThat(client.getAddress().getPostalCode()).isEqualTo(clientDTO.getAddressDTO().getPostalCode());
     }
 
     @Test
-    @DisplayName("Convert Client to ClientDTO")
+    @DisplayName("Converter Client para ClientDTO")
     void whenToDTOThenReturnClientDTO() {
+        
         ClientDTO mappedDTO = clientMapper.toDTO(client);
         
         assertThat(mappedDTO).isNotNull();
@@ -105,11 +131,11 @@ class ClientMapperTest {
         assertThat(mappedDTO.getBirthDate()).isEqualTo(client.getBirthDate());
         assertThat(mappedDTO.getPhone()).isEqualTo(client.getPhone());
         assertThat(mappedDTO.getDocument()).isEqualTo(client.getDocument());
-        assertThat(mappedDTO.getCity()).isEqualTo(client.getCity());
-        assertThat(mappedDTO.getStreet()).isEqualTo(client.getStreet());
-        assertThat(mappedDTO.getNumber()).isEqualTo(client.getNumber());
-        assertThat(mappedDTO.getDistrict()).isEqualTo(client.getDistrict());
-        assertThat(mappedDTO.getComplement()).isEqualTo(client.getComplement());
-        assertThat(mappedDTO.getPostalCode()).isEqualTo(client.getPostalCode());
+        assertThat(mappedDTO.getAddressDTO().getId()).isEqualTo(addressDTO.getId());
+        assertThat(mappedDTO.getAddressDTO().getStreet()).isEqualTo(addressDTO.getStreet());
+        assertThat(mappedDTO.getAddressDTO().getNumber()).isEqualTo(addressDTO.getNumber());
+        assertThat(mappedDTO.getAddressDTO().getDistrict()).isEqualTo(addressDTO.getDistrict());
+        assertThat(mappedDTO.getAddressDTO().getComplement()).isEqualTo(addressDTO.getComplement());
+        assertThat(mappedDTO.getAddressDTO().getPostalCode()).isEqualTo(addressDTO.getPostalCode());
     }
 }
