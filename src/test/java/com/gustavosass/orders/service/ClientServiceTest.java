@@ -22,8 +22,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.gustavosass.orders.dto.AddressDTO;
+import com.gustavosass.orders.mapper.AddressMapper;
 import com.gustavosass.orders.mapper.ClientMapper;
+import com.gustavosass.orders.model.Address;
 import com.gustavosass.orders.model.City;
 import com.gustavosass.orders.model.Client;
 import com.gustavosass.orders.model.Country;
@@ -31,20 +35,20 @@ import com.gustavosass.orders.model.State;
 import com.gustavosass.orders.repository.ClientRepository;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class ClientServiceTest {
 
     @Mock
     private ClientRepository clientRepository;
-    @Mock
-    private ClientMapper clientMapper;
+
+    @Autowired
+    private AddressMapper addressMapper;
+
     @InjectMocks
     private ClientService clientService;
 
-    @Autowired
     private Client client;
-
-    @Autowired
-    private City city;
+    private Address address;
 
     @BeforeEach
     void setUp() {
@@ -62,11 +66,23 @@ class ClientServiceTest {
                 .country(country)
                 .build();
 
-        city = City.builder()
+        City city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
                 .build();
+
+        address = Address.builder()
+                .id(1L)
+                .city(city)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build();
+
+        AddressDTO addressDTO = addressMapper.toDTO(address);
 
         client = Client.builder()
                 .id(1L)
@@ -75,14 +91,9 @@ class ClientServiceTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
-                .city(city)
-                .street("Test Street")
-                .number("123")
-                .district("Test District")
-                .complement("Test Complement")
-                .postalCode("12345678")
+                .address(addressMapper.toEntity(addressDTO))
                 .build();
-    }
+        }
 
     @Test
     @DisplayName("Find client by ID successfully")

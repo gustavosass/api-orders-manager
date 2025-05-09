@@ -5,14 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.gustavosass.orders.dto.RegisterDTO;
 import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.enums.RoleEnum;
 import com.gustavosass.orders.model.User;
 
+@SpringBootTest
 class UserMapperTest {
 
+    @Autowired
     private UserMapper userMapper;
     private User user;
     private RegisterDTO registerDTO;
@@ -20,7 +24,6 @@ class UserMapperTest {
 
     @BeforeEach
     void setUp() {
-        userMapper = new UserMapper();
         
         user = User.builder()
                 .id(1L)

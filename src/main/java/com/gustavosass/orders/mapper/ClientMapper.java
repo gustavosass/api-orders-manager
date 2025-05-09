@@ -1,5 +1,6 @@
 package com.gustavosass.orders.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gustavosass.orders.dto.ClientDTO;
@@ -7,7 +8,10 @@ import com.gustavosass.orders.model.Client;
 
 @Component
 public class ClientMapper {
-    
+
+    @Autowired
+    private AddressMapper addressMapper;
+      
     public Client toEntity(ClientDTO clientDTO) {
         return Client.builder()
                 .id(clientDTO.getId())
@@ -16,12 +20,9 @@ public class ClientMapper {
                 .birthDate(clientDTO.getBirthDate())
                 .phone(clientDTO.getPhone())
                 .document(clientDTO.getDocument())
-                .city(clientDTO.getCity())
-                .street(clientDTO.getStreet())
-                .number(clientDTO.getNumber())
-                .district(clientDTO.getDistrict())
-                .complement(clientDTO.getComplement())
-                .postalCode(clientDTO.getPostalCode())
+                .address(
+                    addressMapper.toEntity(clientDTO.getAddressDTO())
+                )
                 .build();
     }
 
@@ -33,12 +34,7 @@ public class ClientMapper {
                 .birthDate(client.getBirthDate())
                 .phone(client.getPhone())
                 .document(client.getDocument())
-                .city(client.getCity())
-                .street(client.getStreet())
-                .number(client.getNumber())
-                .district(client.getDistrict())
-                .complement(client.getComplement())
-                .postalCode(client.getPostalCode())
+                .addressDTO(addressMapper.toDTO(client.getAddress()))
                 .build();
     }
 }

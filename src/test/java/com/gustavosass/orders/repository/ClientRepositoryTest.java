@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.gustavosass.orders.model.Address;
 import com.gustavosass.orders.model.City;
 import com.gustavosass.orders.model.Client;
 import com.gustavosass.orders.model.Country;
@@ -24,6 +25,9 @@ class ClientRepositoryTest {
     private ClientRepository clientRepository;
     
     @Autowired
+    private AddressRepository addressRepository;
+    
+    @Autowired
     private CountryRepository countryRepository;
     
     @Autowired
@@ -33,29 +37,33 @@ class ClientRepositoryTest {
     private CityRepository cityRepository;
 
     private Client client;
-    private City city;
-    private State state;
-    private Country country;
+    private Address address;
 
     @BeforeEach
     void setUp() {
-        country = Country.builder()
+        Country country = countryRepository.save(Country.builder()
                 .name("Test Country")
-                .build();
-        country = countryRepository.save(country);
+                .build());
 
-        state = State.builder()
+        State state = stateRepository.save(State.builder()
                 .name("Test State")
                 .initials("TS")
                 .country(country)
-                .build();
-        state = stateRepository.save(state);
+                .build());
 
-        city = City.builder()
+        City city = cityRepository.save(City.builder()
                 .name("Test City")
                 .state(state)
-                .build();
-        city = cityRepository.save(city);
+                .build());
+
+        address = addressRepository.save(Address.builder()
+                .city(city)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build());
 
         client = Client.builder()
                 .name("Test Client")
@@ -63,12 +71,7 @@ class ClientRepositoryTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
-                .city(city)
-                .street("Test Street")
-                .number("123")
-                .district("Test District")
-                .complement("Test Complement")
-                .postalCode("12345678")
+                .address(address)
                 .build();
     }
 

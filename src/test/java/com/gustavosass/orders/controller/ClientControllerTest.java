@@ -12,8 +12,10 @@ import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -22,8 +24,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.config.ApplicationConfig;
+import com.gustavosass.orders.dto.AddressDTO;
 import com.gustavosass.orders.dto.ClientDTO;
+import com.gustavosass.orders.mapper.AddressMapper;
 import com.gustavosass.orders.mapper.ClientMapper;
+import com.gustavosass.orders.model.Address;
 import com.gustavosass.orders.model.City;
 import com.gustavosass.orders.model.Client;
 import com.gustavosass.orders.model.Country;
@@ -58,29 +63,37 @@ class ClientControllerTest {
 
     private Client client;
     private ClientDTO clientDTO;
-    private City city;
-    private State state;
-    private Country country;
 
 
     @BeforeEach
     void setUp() {
-        country = Country.builder()
+
+        Country country = Country.builder()
                 .id(1L)
                 .name("Test Country")
                 .build();
         
-        state = State.builder()
+        State state = State.builder()
                 .id(1L)
                 .name("Test State")
                 .initials("TS")
                 .country(country)
                 .build();
 
-        city = City.builder()
+        City city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
+                .build();
+        
+        Address address = Address.builder()
+                .id(1L)
+                .city(city)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
                 .build();
 
         client = Client.builder()
@@ -90,6 +103,10 @@ class ClientControllerTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
+                .address(address)
+                .build(); 
+        
+        AddressDTO addressDTO = AddressDTO.builder()
                 .city(city)
                 .street("Test Street")
                 .number("123")
@@ -105,12 +122,7 @@ class ClientControllerTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
-                .city(city)
-                .street("Test Street")
-                .number("123")
-                .district("Test District")
-                .complement("Test Complement")
-                .postalCode("12345678")
+                .addressDTO(addressDTO)
                 .build();
 
         when(jwtService.generateToken(any())).thenReturn("mocked-jwt-token");
