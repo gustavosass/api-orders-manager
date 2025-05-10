@@ -2,8 +2,6 @@ package com.gustavosass.orders.dto;
 
 import java.util.Date;
 
-import com.gustavosass.orders.model.City;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

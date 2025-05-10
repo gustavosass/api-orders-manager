@@ -29,6 +29,6 @@ public class Address {
     private String postalCode;
 
     @OneToOne
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "city_id")
     private City city;
 }
