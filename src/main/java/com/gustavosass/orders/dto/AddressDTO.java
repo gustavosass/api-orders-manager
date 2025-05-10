@@ -2,6 +2,7 @@ package com.gustavosass.orders.dto;
 
 import com.gustavosass.orders.model.City;
 
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,6 @@ public class AddressDTO {
 
     private Long id;
     
-    private City city;
-    
     private String street;
     
     private String number;
@@ -23,5 +22,9 @@ public class AddressDTO {
     
     private String complement;
     
+    @Size(min = 8, max = 8, message = "CEP deve ter 8 dígitos")
     private String postalCode;
+
+    private City city;
+
 }

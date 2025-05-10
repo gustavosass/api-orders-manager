@@ -15,6 +15,9 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private AddressService addressService;
+
     public Client findById(Long id) {
         return clientRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Client not found"));
@@ -35,16 +38,23 @@ public class ClientService {
     }
 
     public Client create(Client client) {
+        validateClient(client);
         if (clientRepository.findByEmail(client.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
         if (clientRepository.findByDocument(client.getDocument()).isPresent()) {
             throw new IllegalArgumentException("Document already registered");
         }
+
+        if (client.getAddress() != null) {
+            addressService.create(client.getAddress());
+        }
+
         return clientRepository.save(client);
     }
 
     public Client update(Long id, Client client) {
+        validateClient(client);
         Client clientDb = clientRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Client not found"));
         
@@ -67,5 +77,17 @@ public class ClientService {
             throw new NoSuchElementException("Client not found");
         }
         clientRepository.deleteById(id);
+    }
+
+    private void validateClient(Client client) {
+        if (client.getEmail() == null || client.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (client.getDocument() == null || client.getDocument().isEmpty()) {
+            throw new IllegalArgumentException("Document is required");
+        }
+        if (client.getName() == null || client.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name is required");
+        }
     }
 }

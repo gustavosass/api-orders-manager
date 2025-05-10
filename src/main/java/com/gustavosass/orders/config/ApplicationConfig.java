@@ -1,7 +1,12 @@
 package com.gustavosass.orders.config;
 
+import java.time.Duration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,15 +14,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gustavosass.orders.repository.UserRepository;
 
+import io.netty.channel.ChannelOption;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
-
+import reactor.netty.http.client.HttpClient;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
@@ -72,5 +79,20 @@ public class ApplicationConfig {
     @Bean
     public Validator validator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+    @Configuration
+    public class WebClientConfig {
+
+        @Bean
+        public WebClient.Builder webClientBuilder() {
+            return WebClient.builder()
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .clientConnector(new ReactorClientHttpConnector(
+                            HttpClient.create()
+                                .responseTimeout(Duration.ofSeconds(5))
+                                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
+                    ));
+        }
     }
 }

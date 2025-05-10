@@ -95,9 +95,9 @@ class AddressDTOTest {
     }
 
     @Test
-    @DisplayName("Empty postal code should not cause violation")
+    @DisplayName("Null postal code should not cause violation")
     void whenEmptyPostalCodeThenViolation() {
-        addressDTO.setPostalCode("");
+        addressDTO.setPostalCode(null);
         
         Set<ConstraintViolation<AddressDTO>> violations = validator.validate(addressDTO);
         
