@@ -13,40 +13,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.model.state.dto.StateDTO;
-import com.gustavosass.orders.service.StateService;
-
+import com.gustavosass.orders.model.city.dto.CityDTO;
+import com.gustavosass.orders.service.CityService;
 
 @RestController
-@RequestMapping("/v1/api/state")
-public class StateController {
+@RequestMapping("/api/v1/city")
+public class CityController {
 
    @Autowired
-   private StateService stateService;
+   private CityService cityService;
 
    @GetMapping
-   public ResponseEntity<List<StateDTO>> findAll(){
-      return ResponseEntity.ok(stateService.findAll());
+   public ResponseEntity<List<CityDTO>> findAll(){
+      return ResponseEntity.ok(cityService.findAll());
    }
 
    @GetMapping("/{id}")
-   public ResponseEntity<StateDTO> findById(@PathVariable Long id){
-      return ResponseEntity.ok(stateService.findById(id));
+   public ResponseEntity<CityDTO> findById(@PathVariable Long id){
+      return ResponseEntity.ok(cityService.findById(id));
    }
 
    @PostMapping
-   public ResponseEntity<StateDTO> create(@RequestBody StateDTO stateDTO){
-      return ResponseEntity.ok(stateService.create(stateDTO));
+   public ResponseEntity<CityDTO> create(@RequestBody CityDTO cityDTO){
+      return ResponseEntity.ok(cityService.create(cityDTO));
    }
 
    @PutMapping("/{id}")
-   public ResponseEntity<StateDTO> update(@PathVariable Long id, @RequestBody StateDTO stateDTO){
-      return ResponseEntity.ok(stateService.update(id, stateDTO));
+   public ResponseEntity<CityDTO> create(@PathVariable Long id, @RequestBody CityDTO cityDTO){
+      return ResponseEntity.ok(cityService.update(id, cityDTO));
    }
 
    @DeleteMapping("/{id}")
    public ResponseEntity<?> delete(@PathVariable Long id){
-      stateService.delete(id);
+      cityService.delete(id);
       return ResponseEntity.noContent().build();
    }
+
 }

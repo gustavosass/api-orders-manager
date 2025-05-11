@@ -59,13 +59,14 @@ public class StateService {
 
       State state = stateMapper.toEntity(stateDTO);
 
-      return stateMapper.toDTO(
-            stateRepository.findByNameAndCountryId(state.getName(), stateDTO.getCountryDTO().getId()).orElseGet(() -> {
-               Country country = countryMapper.toEntity(
-                     countryService.findById(stateDTO.getCountryDTO().getId()));
-               state.setCountry(country);
-               return stateRepository.save(state);
-            }));
+      if (stateRepository.findByNameAndCountryId(state.getName(), state.getCountry().getId()).isPresent()){
+         throw new DuplicateKeyException("State already exist");
+      }
+         
+      Country country = countryMapper.toEntity(
+                     countryService.findById(state.getCountry().getId()));
+      state.setCountry(country);
+      return stateMapper.toDTO(stateRepository.save(state));
    }
 
    public StateDTO update(Long id, StateDTO stateDTO) {
@@ -83,18 +84,15 @@ public class StateService {
 
       state.setCountry(country);
 
-      stateRepository.findByNameAndCountryId(state.getName(), state.getCountry().getId())
-            .orElseThrow(() -> new DuplicateKeyException("State already exist for Country"));
+      if (stateRepository.findByNameAndCountryId(state.getName(), state.getCountry().getId()).isPresent()){
+         throw new DuplicateKeyException("State already exist for Country");
+      }
       
       return stateMapper.toDTO(state);
    }
 
    public void delete(Long id) {
-      if (id == null) {
-         throw new IllegalArgumentException("Id cannot be null");
-      }
-
-      stateRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Id not found"));
+      findById(id);
 
       stateRepository.deleteById(id);
    }

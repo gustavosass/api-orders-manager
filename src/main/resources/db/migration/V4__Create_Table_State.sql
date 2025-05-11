@@ -3,5 +3,6 @@ create table state (
     name varchar(255) not null,
     initials varchar(2) not null,
     country_id integer not null,
-    CONSTRAINT fk_country FOREIGN KEY (country_id) REFERENCES country(id)
+    CONSTRAINT fk_country FOREIGN KEY (country_id) REFERENCES country(id),
+    CONSTRAINT unique_state_country UNIQUE (name, country_id)
 );
