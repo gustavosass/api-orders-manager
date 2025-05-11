@@ -11,11 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gustavosass.orders.dto.AuthenticationRequestDTO;
-import com.gustavosass.orders.dto.AuthenticationResponseDTO;
-import com.gustavosass.orders.dto.RegisterDTO;
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
+import com.gustavosass.orders.model.user.dto.AuthenticationRequestDTO;
+import com.gustavosass.orders.model.user.dto.AuthenticationResponseDTO;
+import com.gustavosass.orders.model.user.dto.RegisterDTO;
 import com.gustavosass.orders.security.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;

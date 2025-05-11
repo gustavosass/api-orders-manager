@@ -3,8 +3,8 @@ package com.gustavosass.orders.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.dto.ClientDTO;
-import com.gustavosass.orders.model.Client;
+import com.gustavosass.orders.model.client.Client;
+import com.gustavosass.orders.model.client.dto.ClientDTO;
 
 @Component
 public class ClientMapper {

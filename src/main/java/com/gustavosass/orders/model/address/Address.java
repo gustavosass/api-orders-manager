@@ -1,4 +1,6 @@
-package com.gustavosass.orders.model;
+package com.gustavosass.orders.model.address;
+
+import com.gustavosass.orders.model.city.City;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,20 +11,26 @@ import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-public class City {
-
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    private String street;
+    private String number;
+    private String district;
+    private String complement;
+    private String postalCode;
 
     @OneToOne
-    @JoinColumn(name = "state_id", nullable = false)
-    private State state;
-
+    @JoinColumn(name = "city_id")
+    private City city;
 }

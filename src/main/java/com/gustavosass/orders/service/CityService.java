@@ -1,5 +1,6 @@
 package com.gustavosass.orders.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.gustavosass.orders.integration.viacep.ViaCepClient;
 import com.gustavosass.orders.integration.viacep.ViaCepResponse;
-import com.gustavosass.orders.model.City;
-import com.gustavosass.orders.model.State;
+import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.state.State;
 import com.gustavosass.orders.repository.CityRepository;
 
 @Service
@@ -36,41 +37,35 @@ public class CityService {
    public List<City> findByStateId(Long stateId) {
       return cityRepository.findByStateId(stateId);
    }
+/*
+   public City create(City city) {
 
-   //Only create with CEP
-   public City create(String postalCode) {
-      if(postalCode == null || postalCode.isEmpty()) {
-         throw new IllegalArgumentException("Postal code cannot be null or empty");
+      if (city == null){
+         throw new IllegalArgumentException("City cannot be null");
       }
 
-      postalCode = postalCode.replaceAll("[^0-9]", "");
-      
-      if(postalCode.length() != 8) {
-         throw new IllegalArgumentException("Postal code must be 8 digits");
+      if (city.getName() == null){
+         throw new IllegalArgumentException("City name cannot be null");
       }
 
-      ViaCepResponse viaCepResponse = viaCepClient.getAddressByPostalCode(postalCode)
-            .orElseThrow(() -> new IllegalArgumentException("Postal code not found"));
+      //State já existente
+      if (state.getId() != null){
+         State stateDb = stateRepository.getById(state.getId());
 
-      City cityDb = cityRepository.findByNameAndState(viaCepResponse.getLocalidade(), viaCepResponse.getEstado());
-
-      if (cityDb != null) {
-         return cityDb;
+         if (stateDb != null){
+            return stateDb;
+         }
       }
 
-      State state = State.builder()
-            .name(viaCepResponse.getEstado())
-            .initials(viaCepResponse.getUf())
-            .build();
+      //Criar com o nome
+      Country countryDb = countryService.create(state.getCountry());
+      state.setCountry(countryDb);
 
-      state = stateService.create(state);
-
-      City city = City.builder()
-            .name(viaCepResponse.getLocalidade())
-            .state(state)
-            .build();
-
-      return cityRepository.save(city);
-   }
+      return stateRepository.findByNameAndCountryId(state.getName(), countryDb.getId()).orElseGet(() -> {
+         state.setId(null);
+         return stateRepository.save(state);  
+      });
+   }   
+*/
 
 }

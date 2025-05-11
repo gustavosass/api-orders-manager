@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.dto.PasswordDTO;
-import com.gustavosass.orders.dto.RegisterDTO;
-import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
+import com.gustavosass.orders.model.user.dto.PasswordDTO;
+import com.gustavosass.orders.model.user.dto.RegisterDTO;
+import com.gustavosass.orders.model.user.dto.UserDTO;
 import com.gustavosass.orders.service.UserService;
 
 import jakarta.validation.Valid;

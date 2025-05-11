@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.dto.AuthenticationRequestDTO;
-import com.gustavosass.orders.dto.AuthenticationResponseDTO;
+import com.gustavosass.orders.model.user.dto.AuthenticationRequestDTO;
+import com.gustavosass.orders.model.user.dto.AuthenticationResponseDTO;
 import com.gustavosass.orders.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;

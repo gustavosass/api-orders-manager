@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.model.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

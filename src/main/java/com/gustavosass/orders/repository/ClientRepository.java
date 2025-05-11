@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.gustavosass.orders.model.Client;
+import com.gustavosass.orders.model.client.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {

@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.gustavosass.orders.enums.RoleEnum;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
 
 @DataJpaTest
 @ActiveProfiles("test")

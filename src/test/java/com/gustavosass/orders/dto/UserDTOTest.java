@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gustavosass.orders.enums.RoleEnum;
+import com.gustavosass.orders.model.user.dto.UserDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

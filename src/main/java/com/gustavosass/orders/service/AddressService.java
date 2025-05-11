@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gustavosass.orders.model.Address;
-import com.gustavosass.orders.model.City;
+import com.gustavosass.orders.model.address.Address;
+import com.gustavosass.orders.model.city.City;
 import com.gustavosass.orders.repository.AddressRepository;
 
 @Service
@@ -31,22 +31,17 @@ public class AddressService {
 
    public Address create(Address address) {
 
-      if (address.getCity() == null || address.getCity().getId() == null) {
-
-         if (address.getPostalCode().length() == 8) {
-            address.setCity(
-               cityService.create(address.getPostalCode())
-            );
-            return addressRepository.save(address);
-         }
-
-         throw new IllegalArgumentException("City cannot be null or postal code is invalid");
+      if (address.getCity() != null) {
+         //City city = cityService.create(address.getCity());
+         //address.setCity(city);
       }
 
-      City city = cityService.findById(address.getCity().getId());
-      address.setCity(city);
-
       return addressRepository.save(address);
+      /*
+      if (address.getPostalCode() != null){
+         City city = cityService.create(address.getPostalCode());
+         address.setCity(city);
+         return addressRepository.save(address)*/
    }
 
    public Address update(Long id, Address address) {

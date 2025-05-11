@@ -1,4 +1,6 @@
-package com.gustavosass.orders.model;
+package com.gustavosass.orders.model.state;
+
+import com.gustavosass.orders.model.country.Country;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

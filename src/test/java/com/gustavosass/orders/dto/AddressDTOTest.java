@@ -8,9 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gustavosass.orders.model.City;
-import com.gustavosass.orders.model.State;
-import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.model.address.dto.AddressDTO;
+import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.country.Country;
+import com.gustavosass.orders.model.state.State;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
