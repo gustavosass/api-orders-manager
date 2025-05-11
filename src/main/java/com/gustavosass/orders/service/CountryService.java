@@ -34,12 +34,15 @@ public class CountryService {
    }
 
    public CountryDTO create(CountryDTO countryDTO) {
-      return countryMapper.toDTO(countryRepository.findByName(countryDTO.getName()).orElseGet(() -> {
-         Country country = Country.builder()
-               .name(countryDTO.getName())
-               .build();
-         return countryRepository.save(country);
-      }));
+
+      if (countryRepository.findByName(countryDTO.getName()).isPresent()){
+         throw new DuplicateKeyException("Country already exist");
+      }
+
+      Country country = Country.builder()
+            .name(countryDTO.getName())
+            .build();
+      return countryMapper.toDTO(countryRepository.save(country));
    }
 
    public CountryDTO update(Long id, CountryDTO countryDTO) {
@@ -50,7 +53,7 @@ public class CountryService {
 
       Country countryDb = countryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("ID not found"));
 
-      if (countryRepository.findByName(countryDTO.getName()).isPresent()){
+      if (countryRepository.findByName(countryDTO.getName()).isPresent()) {
          throw new DuplicateKeyException("Country already exist");
       }
 
@@ -62,7 +65,7 @@ public class CountryService {
 
    public void delete(Long id) {
 
-      countryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("ID not found"));
+      findById(id);
 
       countryRepository.deleteById(id);
    }
