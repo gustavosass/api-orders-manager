@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.gustavosass.orders.enums.RoleEnum;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
 import com.gustavosass.orders.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)

@@ -2,9 +2,9 @@ package com.gustavosass.orders.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.dto.RegisterDTO;
-import com.gustavosass.orders.dto.UserDTO;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
+import com.gustavosass.orders.model.user.dto.RegisterDTO;
+import com.gustavosass.orders.model.user.dto.UserDTO;
 
 @Component
 public class UserMapper {

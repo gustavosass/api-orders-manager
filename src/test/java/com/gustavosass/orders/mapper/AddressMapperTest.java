@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gustavosass.orders.dto.AddressDTO;
-import com.gustavosass.orders.model.Address;
-import com.gustavosass.orders.model.City;
-import com.gustavosass.orders.model.State;
-import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.model.address.Address;
+import com.gustavosass.orders.model.address.dto.AddressDTO;
+import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.country.Country;
+import com.gustavosass.orders.model.state.State;
 
 @ExtendWith(MockitoExtension.class)
 class AddressMapperTest {

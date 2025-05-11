@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.dto.ClientDTO;
-import com.gustavosass.orders.mapper.ClientMapper;
-import com.gustavosass.orders.model.Client;
+import com.gustavosass.orders.model.client.dto.ClientDTO;
 import com.gustavosass.orders.service.ClientService;
 
 import jakarta.validation.Valid;
@@ -27,36 +25,24 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
     
-    @Autowired
-    private ClientMapper clientMapper;
-
     @GetMapping("/{id}")
     public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
-        Client client = clientService.findById(id);
-        return ResponseEntity.ok(clientMapper.toDTO(client));
+        return ResponseEntity.ok(clientService.findById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<ClientDTO>> findAll() {
-        List<Client> clients = clientService.findAll();
-        List<ClientDTO> clientsDTO = clients.stream()
-                .map(clientMapper::toDTO)
-                .toList();
-        return ResponseEntity.ok(clientsDTO);
+        return ResponseEntity.ok(clientService.findAll());
     }
 
     @PostMapping
     public ResponseEntity<ClientDTO> create(@Valid @RequestBody ClientDTO clientDTO) {
-        Client client = clientMapper.toEntity(clientDTO);
-        client = clientService.create(client);
-        return ResponseEntity.ok(clientMapper.toDTO(client));
+        return ResponseEntity.ok(clientService.create(clientDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDTO) {
-        Client client = clientMapper.toEntity(clientDTO);
-        client = clientService.update(id, client);
-        return ResponseEntity.ok(clientMapper.toDTO(client));
+        return ResponseEntity.ok(clientService.update(id, clientDTO));
     }
 
     @DeleteMapping("/{id}")

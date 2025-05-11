@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.model.user.dto;
 
 import com.gustavosass.orders.enums.RoleEnum;
 

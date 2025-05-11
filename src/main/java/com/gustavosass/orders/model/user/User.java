@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model;
+package com.gustavosass.orders.model.user;
 
 import java.util.Collection;
 import java.util.List;

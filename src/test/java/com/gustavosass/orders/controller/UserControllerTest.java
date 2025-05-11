@@ -22,15 +22,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.config.ApplicationConfig;
 import com.gustavosass.orders.security.SecurityConfiguration;
-import com.gustavosass.orders.dto.PasswordDTO;
-import com.gustavosass.orders.dto.RegisterDTO;
-import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.enums.RoleEnum;
 import com.gustavosass.orders.security.JwtAuthenticationFilter;
 import com.gustavosass.orders.security.JwtService;
 import com.gustavosass.orders.service.UserService;
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.model.user.User;
+import com.gustavosass.orders.model.user.dto.PasswordDTO;
+import com.gustavosass.orders.model.user.dto.RegisterDTO;
+import com.gustavosass.orders.model.user.dto.UserDTO;
 import com.gustavosass.orders.repository.UserRepository;
 
 @WebMvcTest(UserController.class)
