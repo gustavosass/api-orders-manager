@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.gustavosass.orders.mapper.CountryMapper;
 import com.gustavosass.orders.mapper.StateMapper;
 import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
 import com.gustavosass.orders.model.state.State;
 import com.gustavosass.orders.model.state.dto.StateDTO;
 import com.gustavosass.orders.repository.StateRepository;
@@ -41,6 +40,14 @@ public class StateService {
 
    public List<StateDTO> findAll(){
       return stateRepository.findAll().stream().map(stateMapper::toDTO).toList();
+   }
+
+   public boolean existsByName(String name) {
+      return stateRepository.existsByName(name);
+   }
+
+   public State findByIdAndCountryId(Long id, Long countryId) {
+      return stateRepository.findByIdAndCountryId(id, countryId);
    }
 
    public StateDTO create(StateDTO stateDTO) {
