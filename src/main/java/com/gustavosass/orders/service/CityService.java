@@ -46,8 +46,8 @@ public class CityService {
       return cityRepository.existsByName(name);
    }
 
-   public City findByIdAndStateId(Long id, Long stateId) {
-      return cityRepository.findByIdAndStateId(id, stateId);
+   public CityDTO findByIdAndStateId(Long id, Long stateId) {
+      return cityMapper.toDTO(cityRepository.findByIdAndStateId(id, stateId).orElseThrow(() -> new NoSuchElementException("City not found")));
    }
 
    public CityDTO create(CityDTO cityDTO) {

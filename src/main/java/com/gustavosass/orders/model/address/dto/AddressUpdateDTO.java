@@ -10,6 +10,7 @@ import lombok.Setter;
 @Builder
 public class AddressUpdateDTO {
 
+   private Long id;
    private String street;
    private String number;
    private String district;

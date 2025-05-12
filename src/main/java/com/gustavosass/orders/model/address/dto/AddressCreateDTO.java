@@ -22,6 +22,6 @@ public class AddressCreateDTO {
    @NotNull(message = "State ID cannot be null")
    private Long stateId;
 
-   @NotNull(message = "Country ID cannot be null")
+   @NotNull(message = "CountryID cannot be null")
    private Long countryId;
 }

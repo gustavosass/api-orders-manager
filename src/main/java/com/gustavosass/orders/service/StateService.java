@@ -46,8 +46,8 @@ public class StateService {
       return stateRepository.existsByName(name);
    }
 
-   public State findByIdAndCountryId(Long id, Long countryId) {
-      return stateRepository.findByIdAndCountryId(id, countryId);
+   public StateDTO findByIdAndCountryId(Long id, Long countryId) {
+      return stateMapper.toDTO(stateRepository.findByIdAndCountryId(id, countryId).orElseThrow(() -> new NoSuchElementException("State not found")));
    }
 
    public StateDTO create(StateDTO stateDTO) {

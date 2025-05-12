@@ -24,15 +24,15 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
-        return ResponseEntity.ok(clientService.findById(id));
-    }
 
     @GetMapping
     public ResponseEntity<List<ClientDTO>> findAll() {
         return ResponseEntity.ok(clientService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
+        return ResponseEntity.ok(clientService.findById(id));
     }
 
     @PostMapping

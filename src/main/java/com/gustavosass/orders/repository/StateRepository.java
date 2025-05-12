@@ -17,6 +17,6 @@ public interface StateRepository extends JpaRepository<State, Long> {
 
     boolean existsByName(String name);
 
-    State findByIdAndCountryId(Long id, Long countryId);
+    Optional<State> findByIdAndCountryId(Long id, Long countryId);
 
 }
