@@ -6,6 +6,7 @@ import com.gustavosass.orders.model.address.dto.AddressDTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,5 +33,6 @@ public class ClientDTO {
     @NotBlank(message = "Documento é obrigatório")
     private String document; 
 
+    @NotNull(message = "Endereço é obrigatório")
     private AddressDTO addressDTO;
 }

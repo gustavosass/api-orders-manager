@@ -15,4 +15,8 @@ public interface StateRepository extends JpaRepository<State, Long> {
     @Query("SELECT s FROM State s WHERE s.name = :stateName AND s.country.id = :id")
     Optional<State> findByNameAndCountryId(String stateName, Long id);
 
+    boolean existsByName(String name);
+
+    Optional<State> findByIdAndCountryId(Long id, Long countryId);
+
 }

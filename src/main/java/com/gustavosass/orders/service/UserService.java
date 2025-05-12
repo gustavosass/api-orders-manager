@@ -54,18 +54,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void delete(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new NoSuchElementException("User not found");
-        }
-        userRepository.deleteById(id);
-    }
-
     public void updatePassword(Long id, String password) {
         User userDb = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
         
         userDb.setPassword(passwordEncoder.encode(password));
         
         userRepository.save(userDb);
+    }
+
+    
+    public void delete(Long id) {
+        findById(id);
+        userRepository.deleteById(id);
     }
 }

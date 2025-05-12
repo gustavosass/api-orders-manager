@@ -11,4 +11,6 @@ import com.gustavosass.orders.model.country.Country;
 public interface CountryRepository extends JpaRepository<Country, Long> {
     Optional<Country> findByName(String name);
 
+    boolean existsByName(String name);
+
 }

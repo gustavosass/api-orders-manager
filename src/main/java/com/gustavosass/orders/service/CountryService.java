@@ -2,6 +2,7 @@ package com.gustavosass.orders.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,6 +32,10 @@ public class CountryService {
       return countryRepository.findAll().stream()
             .map(countryMapper::toDTO)
             .toList();
+   }
+
+   public boolean existsByName(String name) {
+      return countryRepository.existsByName(name);
    }
 
    public CountryDTO create(CountryDTO countryDTO) {
@@ -68,5 +73,9 @@ public class CountryService {
       findById(id);
 
       countryRepository.deleteById(id);
+   }
+
+   public Optional<CountryDTO> findByName(String name) {
+      return Optional.ofNullable(countryMapper.toDTO(countryRepository.findByName(name).orElse(null)));
    }
 }

@@ -42,6 +42,14 @@ public class CityService {
       return cityRepository.findByStateId(stateId);
    }
 
+   public boolean existsByName(String name) {
+      return cityRepository.existsByName(name);
+   }
+
+   public CityDTO findByIdAndStateId(Long id, Long stateId) {
+      return cityMapper.toDTO(cityRepository.findByIdAndStateId(id, stateId).orElseThrow(() -> new NoSuchElementException("City not found")));
+   }
+
    public CityDTO create(CityDTO cityDTO) {
 
       validateCity(cityDTO);
@@ -60,12 +68,12 @@ public class CityService {
 
    public CityDTO update(Long id, CityDTO cityDTO) {
 
-      if(id == null){
+      if (id == null) {
          throw new IllegalArgumentException("Id cannot be null");
       }
       validateCity(cityDTO);
 
-      CityDTO cityDb = findById(id);
+      findById(id);
       cityDTO.setId(id);
 
       StateDTO stateDb = stateService.findById(cityDTO.getStateDTO().getId());
@@ -80,12 +88,12 @@ public class CityService {
             cityRepository.save(city));
    }
 
-   public void delete(Long id){
+   public void delete(Long id) {
       findById(id);
       cityRepository.deleteById(id);
    }
 
-   private void validateCity(CityDTO cityDTO){
+   private void validateCity(CityDTO cityDTO) {
       if (cityDTO == null) {
          throw new IllegalArgumentException("City cannot be null");
       }
