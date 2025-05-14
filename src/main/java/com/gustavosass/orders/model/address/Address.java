@@ -1,6 +1,7 @@
 package com.gustavosass.orders.model.address;
 
 import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.client.Client;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,4 +34,7 @@ public class Address {
     @OneToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToOne(mappedBy = "address")
+    private Client client;
 }

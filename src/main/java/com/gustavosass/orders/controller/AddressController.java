@@ -21,7 +21,7 @@ import com.gustavosass.orders.service.AddressService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/addresses")
+@RequestMapping("/api/v1/clients/address")
 public class AddressController {
 
     @Autowired
@@ -32,25 +32,9 @@ public class AddressController {
         return ResponseEntity.ok(addressService.findById(id));
     }
 
-    @GetMapping
-    public ResponseEntity<List<AddressDTO>> findAll() {
-        return ResponseEntity.ok(addressService.findAll());
-    }
-
-    @PostMapping
-    public ResponseEntity<AddressDTO> create(@org.springframework.web.bind.annotation.RequestBody @Valid AddressCreateDTO addressCreateDTO) {
-        return ResponseEntity.ok(addressService.create(addressCreateDTO));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<AddressDTO> update(@PathVariable Long id, @RequestBody @Valid AddressUpdateDTO addressUpdateDTO) {
-        return ResponseEntity.ok(addressService.update(id, addressUpdateDTO));
+    public ResponseEntity<AddressDTO> update(@PathVariable Long clientId, @PathVariable Long id, @RequestBody @Valid AddressUpdateDTO addressUpdateDTO) {
+        return ResponseEntity.ok(addressService.update(clientId, id, addressUpdateDTO));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        addressService.delete(id);
-        return ResponseEntity.noContent().build();
-    }    
 
 }

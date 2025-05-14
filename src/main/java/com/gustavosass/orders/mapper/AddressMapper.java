@@ -1,6 +1,7 @@
 package com.gustavosass.orders.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.gustavosass.orders.model.address.Address;
@@ -13,6 +14,8 @@ public class AddressMapper {
 
     @Autowired
     private CityMapper cityMapper;
+
+
 
     public AddressDTO toDTO(Address address) {
         return AddressDTO.builder()
