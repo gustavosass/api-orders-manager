@@ -1,6 +1,7 @@
 package com.gustavosass.orders.model.address.dto;
 
 import com.gustavosass.orders.model.city.dto.CityDTO;
+import com.gustavosass.orders.model.client.dto.ClientDTO;
 
 import lombok.Builder;
 import lombok.Getter;

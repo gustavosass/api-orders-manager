@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gustavosass.orders.model.client.dto.ClientCreateDTO;
 import com.gustavosass.orders.model.client.dto.ClientDTO;
+import com.gustavosass.orders.model.client.dto.ClientUpdateDTO;
 import com.gustavosass.orders.service.ClientService;
 
 import jakarta.validation.Valid;
@@ -36,13 +38,13 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> create(@Valid @RequestBody ClientDTO clientDTO) {
-        return ResponseEntity.ok(clientService.create(clientDTO));
+    public ResponseEntity<ClientDTO> create(@RequestBody @Valid ClientCreateDTO clientCreateDTO) {
+        return ResponseEntity.ok(clientService.create(clientCreateDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDTO) {
-        return ResponseEntity.ok(clientService.update(id, clientDTO));
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody @Valid ClientUpdateDTO clientUpdateDTO) {
+        return ResponseEntity.ok(clientService.update(id, clientUpdateDTO));
     }
 
     @DeleteMapping("/{id}")
