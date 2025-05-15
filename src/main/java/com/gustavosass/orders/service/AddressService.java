@@ -67,7 +67,7 @@ public class AddressService {
             addressRepository.save(address));
    }
 
-   public AddressDTO update(Long clientId, Long id, AddressUpdateDTO addressUpdateDTO) {
+   public AddressDTO update(Long id, AddressUpdateDTO addressUpdateDTO) {
 
       findById(id);
 

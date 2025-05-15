@@ -284,7 +284,7 @@ class ClientServiceTest {
         when(clientMapper.toEntity(any(ClientUpdateDTO.class))).thenReturn(client);
         when(clientMapper.toDTO(any(Client.class))).thenReturn(updatedClientDTO);
         when(clientRepository.save(any(Client.class))).thenReturn(updatedClient);
-        when(addressService.update(any(Long.class), any(Long.class), any(AddressUpdateDTO.class))).thenReturn(addressDTO);
+        when(addressService.update(any(Long.class), any(AddressUpdateDTO.class))).thenReturn(addressDTO);
         when(addressMapper.toEntity(any(AddressDTO.class))).thenReturn(address);
 
         ClientDTO result = clientService.update(1L, clientUpdateDTO);

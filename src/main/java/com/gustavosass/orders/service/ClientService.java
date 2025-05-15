@@ -76,7 +76,7 @@ public class ClientService {
 
 		validateClient(client);
 
-		Address address = addressMapper.toEntity(addressService.update(id, client.getId(), clientUpdateDTO.getAddressUpdateDTO()));
+		Address address = addressMapper.toEntity(addressService.update(client.getId(), clientUpdateDTO.getAddressUpdateDTO()));
 		client.setAddress(address);
 
 		return clientMapper.toDTO(
