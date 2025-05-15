@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.dto.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,15 +9,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.gustavosass.orders.mapper.ClientMapper;
 import com.gustavosass.orders.model.address.dto.AddressDTO;
 import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.city.dto.CityDTO;
 import com.gustavosass.orders.model.client.dto.ClientDTO;
 import com.gustavosass.orders.model.country.Country;
+import com.gustavosass.orders.model.country.dto.CountryDTO;
 import com.gustavosass.orders.model.state.State;
+import com.gustavosass.orders.model.state.dto.StateDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -26,19 +27,26 @@ import jakarta.validation.Validator;
 @SpringBootTest
 class ClientDTOTest {
 
-    @Autowired
-    private ClientMapper clientMapper;
     private Validator validator;
     private ClientDTO clientDTO;
     private City city;
+    private CityDTO cityDTO;
     private State state;
+    private StateDTO stateDTO;
+    private Country country;
+    private CountryDTO countryDTO;
     private AddressDTO addressDTO;
 
     @BeforeEach
     void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
         
-        Country country = Country.builder()
+        country = Country.builder()
+                .id(1L)
+                .name("Test Country")
+                .build();
+                
+        countryDTO = CountryDTO.builder()
                 .id(1L)
                 .name("Test Country")
                 .build();
@@ -49,15 +57,28 @@ class ClientDTOTest {
                 .initials("TS")
                 .country(country)
                 .build();
+                
+        stateDTO = StateDTO.builder()
+                .id(1L)
+                .name("Test State")
+                .initials("TS")
+                .countryDTO(countryDTO)
+                .build();
 
         city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
                 .build();
+                
+        cityDTO = CityDTO.builder()
+                .id(1L)
+                .name("Test City")
+                .stateDTO(stateDTO)
+                .build();
 
         addressDTO = AddressDTO.builder()
-                .city(city)
+                .cityDTO(cityDTO)
                 .street("Test Street")
                 .number("123")
                 .district("Test District")
@@ -226,4 +247,4 @@ class ClientDTOTest {
             assertThat(dto.getAddressDTO()).isNotNull();
         }
     }
-}
+} 

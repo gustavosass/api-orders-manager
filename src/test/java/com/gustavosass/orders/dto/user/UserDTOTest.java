@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.dto.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -100,4 +100,4 @@ class UserDTOTest {
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("Permissão é obrigatória");
     }
-}
+} 

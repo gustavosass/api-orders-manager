@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.dto.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

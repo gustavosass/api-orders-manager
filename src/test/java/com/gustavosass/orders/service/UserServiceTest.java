@@ -165,7 +165,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Deletar usuário com sucesso")
     void whenDeleteUserThenSuccess() {
-        when(userRepository.existsById(1L)).thenReturn(true);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         userService.delete(1L);
 
@@ -175,7 +175,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Lançar exceção ao tentar deletar usuário não existente")
     void whenDeleteNonExistentUserThenThrowException() {
-        when(userRepository.existsById(any())).thenReturn(false);
+        when(userRepository.findById(any())).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(NoSuchElementException.class,
                 () -> userService.delete(1L));

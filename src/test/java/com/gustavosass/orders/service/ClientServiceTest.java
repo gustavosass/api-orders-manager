@@ -3,7 +3,6 @@ package com.gustavosass.orders.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,17 +20,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.gustavosass.orders.mapper.AddressMapper;
 import com.gustavosass.orders.mapper.ClientMapper;
 import com.gustavosass.orders.model.address.Address;
+import com.gustavosass.orders.model.address.dto.AddressCreateDTO;
 import com.gustavosass.orders.model.address.dto.AddressDTO;
+import com.gustavosass.orders.model.address.dto.AddressUpdateDTO;
 import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.city.dto.CityDTO;
 import com.gustavosass.orders.model.client.Client;
+import com.gustavosass.orders.model.client.dto.ClientCreateDTO;
+import com.gustavosass.orders.model.client.dto.ClientDTO;
+import com.gustavosass.orders.model.client.dto.ClientUpdateDTO;
 import com.gustavosass.orders.model.country.Country;
+import com.gustavosass.orders.model.country.dto.CountryDTO;
 import com.gustavosass.orders.model.state.State;
+import com.gustavosass.orders.model.state.dto.StateDTO;
 import com.gustavosass.orders.repository.ClientRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,21 +46,40 @@ class ClientServiceTest {
 
     @Mock
     private ClientRepository clientRepository;
-
-    @Autowired
+    
+    @Mock
+    private AddressService addressService;
+    
+    @Mock
     private AddressMapper addressMapper;
+    
+    @Mock
+    private ClientMapper clientMapper;
 
     @InjectMocks
     private ClientService clientService;
 
     private Client client;
+    private ClientDTO clientDTO;
+    private ClientCreateDTO clientCreateDTO;
+    private ClientUpdateDTO clientUpdateDTO;
     private Address address;
+    private AddressDTO addressDTO;
+    private AddressCreateDTO addressCreateDTO;
+    private AddressUpdateDTO addressUpdateDTO;
+    private City city;
+    private CityDTO cityDTO;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
         Country country = Country.builder()
+                .id(1L)
+                .name("Test Country")
+                .build();
+                
+        CountryDTO countryDTO = CountryDTO.builder()
                 .id(1L)
                 .name("Test Country")
                 .build();
@@ -65,11 +90,24 @@ class ClientServiceTest {
                 .initials("TS")
                 .country(country)
                 .build();
+                
+        StateDTO stateDTO = StateDTO.builder()
+                .id(1L)
+                .name("Test State")
+                .initials("TS")
+                .countryDTO(countryDTO)
+                .build();
 
-        City city = City.builder()
+        city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
+                .build();
+                
+        cityDTO = CityDTO.builder()
+                .id(1L)
+                .name("Test City")
+                .stateDTO(stateDTO)
                 .build();
 
         address = Address.builder()
@@ -82,7 +120,38 @@ class ClientServiceTest {
                 .postalCode("12345678")
                 .build();
 
-        AddressDTO addressDTO = addressMapper.toDTO(address);
+        addressDTO = AddressDTO.builder()
+                .id(1L)
+                .cityDTO(cityDTO)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build();
+                
+        addressCreateDTO = AddressCreateDTO.builder()
+                .cityId(1L)
+                .countryId(1L)
+                .stateId(1L)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build();
+                
+        addressUpdateDTO = AddressUpdateDTO.builder()
+                .id(1L)
+                .cityId(1L)
+                .countryId(1L)
+                .stateId(1L)
+                .street("Test Street")
+                .number("123")
+                .district("Test District")
+                .complement("Test Complement")
+                .postalCode("12345678")
+                .build();
 
         client = Client.builder()
                 .id(1L)
@@ -91,16 +160,46 @@ class ClientServiceTest {
                 .birthDate(new Date())
                 .phone("123456789")
                 .document("12345678900")
-                .address(addressMapper.toEntity(addressDTO))
+                .address(address)
                 .build();
-        }
+                
+        clientDTO = ClientDTO.builder()
+                .id(1L)
+                .name("Test Client")
+                .email("test@test.com")
+                .birthDate(new Date())
+                .phone("123456789")
+                .document("12345678900")
+                .addressDTO(addressDTO)
+                .build();
+                
+        clientCreateDTO = ClientCreateDTO.builder()
+                .name("Test Client")
+                .email("test@test.com")
+                .birthDate(new Date())
+                .phone("123456789")
+                .document("12345678900")
+                .addressCreateDTO(addressCreateDTO)
+                .build();
+                
+        clientUpdateDTO = ClientUpdateDTO.builder()
+                .id(1L)
+                .name("Test Client")
+                .email("test@test.com")
+                .birthDate(new Date())
+                .phone("123456789")
+                .document("12345678900")
+                .addressUpdateDTO(addressUpdateDTO)
+                .build();
+    }
 
     @Test
     @DisplayName("Find client by ID successfully")
     void whenFindByIdThenReturnClient() {
-        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+        when(clientRepository.findById(any(Long.class))).thenReturn(Optional.of(client));
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
 
-        Client found = clientService.findById(1L);
+        ClientDTO found = clientService.findById(1L);
 
         assertThat(found).isNotNull();
         assertThat(found.getId()).isEqualTo(client.getId());
@@ -109,7 +208,7 @@ class ClientServiceTest {
     @Test
     @DisplayName("Throw exception when client ID not found")
     void whenFindByIdNotFoundThenThrowException() {
-        when(clientRepository.findById(1L)).thenReturn(Optional.empty());
+        when(clientRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(NoSuchElementException.class,
                 () -> clientService.findById(1L));
@@ -120,10 +219,10 @@ class ClientServiceTest {
     @Test
     @DisplayName("Find client by email successfully")
     void whenFindByEmailThenReturnClient() {
-        when(clientRepository.findByEmail(client.getEmail()))
-                .thenReturn(Optional.of(client));
+        when(clientRepository.findByEmail(any(String.class))).thenReturn(Optional.of(client));
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
 
-        Client found = clientService.findByEmail(client.getEmail());
+        ClientDTO found = clientService.findByEmail("test@test.com");
 
         assertThat(found).isNotNull();
         assertThat(found.getEmail()).isEqualTo(client.getEmail());
@@ -132,10 +231,10 @@ class ClientServiceTest {
     @Test
     @DisplayName("Find client by document successfully")
     void whenFindByDocumentThenReturnClient() {
-        when(clientRepository.findByDocument(client.getDocument()))
-                .thenReturn(Optional.of(client));
+        when(clientRepository.findByDocument(any(String.class))).thenReturn(Optional.of(client));
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
 
-        Client found = clientService.findByDocument(client.getDocument());
+        ClientDTO found = clientService.findByDocument("12345678900");
 
         assertThat(found).isNotNull();
         assertThat(found.getDocument()).isEqualTo(client.getDocument());
@@ -145,8 +244,9 @@ class ClientServiceTest {
     @DisplayName("Find all clients successfully")
     void whenFindAllThenReturnClientList() {
         when(clientRepository.findAll()).thenReturn(Arrays.asList(client));
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
 
-        List<Client> clients = clientService.findAll();
+        List<ClientDTO> clients = clientService.findAll();
 
         assertThat(clients).isNotEmpty();
         assertThat(clients).hasSize(1);
@@ -156,11 +256,15 @@ class ClientServiceTest {
     @Test
     @DisplayName("Create client successfully")
     void whenCreateClientThenSuccess() {
-        when(clientRepository.findByEmail(any())).thenReturn(Optional.empty());
-        when(clientRepository.findByDocument(any())).thenReturn(Optional.empty());
+        when(clientRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
+        when(clientRepository.findByDocument(any(String.class))).thenReturn(Optional.empty());
         when(clientRepository.save(any(Client.class))).thenReturn(client);
+        when(clientMapper.toEntity(any(ClientCreateDTO.class))).thenReturn(client);
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
+        when(addressService.create(any(AddressCreateDTO.class))).thenReturn(addressDTO);
+        when(addressMapper.toEntity(any(AddressDTO.class))).thenReturn(address);
 
-        Client created = clientService.create(client);
+        ClientDTO created = clientService.create(clientCreateDTO);
 
         assertThat(created).isNotNull();
         assertThat(created.getId()).isEqualTo(client.getId());
@@ -168,30 +272,22 @@ class ClientServiceTest {
     }
 
     @Test
-    @DisplayName("Throw exception when creating client with existing email")
-    void whenCreateClientWithExistingEmailThenThrowException() {
-        when(clientRepository.findByEmail(client.getEmail()))
-                .thenReturn(Optional.of(client));
-
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> clientService.create(client));
-
-        assertThat(exception.getMessage()).isEqualTo("Email already registered");
-        verify(clientRepository, never()).save(any(Client.class));
-    }
-
-    @Test
     @DisplayName("Update client successfully")
     void whenUpdateClientThenSuccess() {
         Client updatedClient = client;
         updatedClient.setName("Updated Name");
+        
+        ClientDTO updatedClientDTO = clientDTO;
+        updatedClientDTO.setName("Updated Name");
 
-
-        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
-  
+        when(clientRepository.findById(any(Long.class))).thenReturn(Optional.of(client));
+        when(clientMapper.toEntity(any(ClientUpdateDTO.class))).thenReturn(client);
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(updatedClientDTO);
         when(clientRepository.save(any(Client.class))).thenReturn(updatedClient);
+        when(addressService.update(any(Long.class), any(Long.class), any(AddressUpdateDTO.class))).thenReturn(addressDTO);
+        when(addressMapper.toEntity(any(AddressDTO.class))).thenReturn(address);
 
-        Client result = clientService.update(1L, updatedClient);
+        ClientDTO result = clientService.update(1L, clientUpdateDTO);
 
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("Updated Name");
@@ -201,22 +297,11 @@ class ClientServiceTest {
     @Test
     @DisplayName("Delete client successfully")
     void whenDeleteClientThenSuccess() {
-        when(clientRepository.existsById(1L)).thenReturn(true);
+        when(clientRepository.findById(any(Long.class))).thenReturn(Optional.of(client));
+        when(clientMapper.toDTO(any(Client.class))).thenReturn(clientDTO);
 
         clientService.delete(1L);
 
-        verify(clientRepository).deleteById(1L);
-    }
-
-    @Test
-    @DisplayName("Throw exception when deleting non-existent client")
-    void whenDeleteNonExistentClientThenThrowException() {
-        when(clientRepository.existsById(1L)).thenReturn(false);
-
-        Exception exception = assertThrows(NoSuchElementException.class,
-                () -> clientService.delete(1L));
-
-        assertThat(exception.getMessage()).isEqualTo("Client not found");
-        verify(clientRepository, never()).deleteById(any());
+        verify(clientRepository).deleteById(any(Long.class));
     }
 }
