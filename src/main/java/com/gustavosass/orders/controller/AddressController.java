@@ -28,8 +28,8 @@ public class AddressController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddressDTO> update(@PathVariable Long clientId, @PathVariable Long id, @RequestBody @Valid AddressUpdateDTO addressUpdateDTO) {
-        return ResponseEntity.ok(addressService.update(clientId, id, addressUpdateDTO));
+    public ResponseEntity<AddressDTO> update(@PathVariable Long id, @RequestBody @Valid AddressUpdateDTO addressUpdateDTO) {
+        return ResponseEntity.ok(addressService.update(id, addressUpdateDTO));
     }
 
 }
