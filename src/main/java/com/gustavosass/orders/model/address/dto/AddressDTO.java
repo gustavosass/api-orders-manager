@@ -1,5 +1,6 @@
 package com.gustavosass.orders.model.address.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gustavosass.orders.model.city.dto.CityDTO;
 import com.gustavosass.orders.model.client.dto.ClientDTO;
 
@@ -25,5 +26,8 @@ public class AddressDTO {
     private String postalCode;
     
     private CityDTO cityDTO;
+    
+    @JsonIgnore
+    private ClientDTO clientDTO;
 
 }

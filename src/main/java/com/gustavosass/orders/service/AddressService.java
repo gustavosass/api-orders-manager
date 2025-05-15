@@ -1,7 +1,5 @@
 package com.gustavosass.orders.service;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.gustavosass.orders.integration.viacep.ViaCepClient;
 import com.gustavosass.orders.mapper.AddressMapper;
 import com.gustavosass.orders.mapper.CityMapper;
-import com.gustavosass.orders.mapper.ClientMapper;
 import com.gustavosass.orders.mapper.CountryMapper;
 import com.gustavosass.orders.mapper.StateMapper;
 import com.gustavosass.orders.model.address.Address;
@@ -18,7 +15,6 @@ import com.gustavosass.orders.model.address.dto.AddressCreateDTO;
 import com.gustavosass.orders.model.address.dto.AddressDTO;
 import com.gustavosass.orders.model.address.dto.AddressUpdateDTO;
 import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.client.dto.ClientDTO;
 import com.gustavosass.orders.model.country.Country;
 import com.gustavosass.orders.model.state.State;
 import com.gustavosass.orders.repository.AddressRepository;

@@ -1,22 +1,19 @@
 package com.gustavosass.orders.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.gustavosass.orders.model.address.Address;
 import com.gustavosass.orders.model.address.dto.AddressDTO;
 import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.city.dto.CityDTO;
 import com.gustavosass.orders.model.client.Client;
 import com.gustavosass.orders.model.client.dto.ClientDTO;
 import com.gustavosass.orders.model.country.Country;
@@ -28,6 +25,9 @@ class ClientMapperTest {
     @Autowired
     private ClientMapper clientMapper;
 
+    @Autowired
+    private CityMapper cityMapper;
+
     private Client client;
     private ClientDTO clientDTO;
     private AddressDTO addressDTO;
@@ -35,6 +35,7 @@ class ClientMapperTest {
     private City city;
     private State state;
     private Country country;
+    private CityDTO cityDTO;
 
     @BeforeEach
     void setUp() {
@@ -57,6 +58,11 @@ class ClientMapperTest {
                 .state(state)
                 .build();
 
+        cityDTO = CityDTO.builder()
+                .id(1L)
+                .name("Test City")
+                .build();
+
         address = Address.builder()
                 .id(1L)
                 .city(city)
@@ -68,7 +74,8 @@ class ClientMapperTest {
                 .build();
 
         addressDTO = AddressDTO.builder()
-                .city(city)
+                .id(1L)
+                .cityDTO(cityMapper.toDTO(city))
                 .street("Test Street")
                 .number("123")
                 .district("Test District")

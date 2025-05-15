@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.dto.address;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import com.gustavosass.orders.model.address.dto.AddressDTO;
 import com.gustavosass.orders.model.city.City;
+import com.gustavosass.orders.model.city.dto.CityDTO;
 import com.gustavosass.orders.model.country.Country;
+import com.gustavosass.orders.model.country.dto.CountryDTO;
 import com.gustavosass.orders.model.state.State;
+import com.gustavosass.orders.model.state.dto.StateDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -22,14 +25,22 @@ class AddressDTOTest {
     private Validator validator;
     private AddressDTO addressDTO;
     private City city;
+    private CityDTO cityDTO;
     private State state;
+    private StateDTO stateDTO;
     private Country country;
+    private CountryDTO countryDTO;
 
     @BeforeEach
     void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
         
         country = Country.builder()
+                .id(1L)
+                .name("Test Country")
+                .build();
+                
+        countryDTO = CountryDTO.builder()
                 .id(1L)
                 .name("Test Country")
                 .build();
@@ -40,15 +51,28 @@ class AddressDTOTest {
                 .initials("TS")
                 .country(country)
                 .build();
+                
+        stateDTO = StateDTO.builder()
+                .id(1L)
+                .name("Test State")
+                .initials("TS")
+                .countryDTO(countryDTO)
+                .build();
 
         city = City.builder()
                 .id(1L)
                 .name("Test City")
                 .state(state)
                 .build();
+                
+        cityDTO = CityDTO.builder()
+                .id(1L)
+                .name("Test City")
+                .stateDTO(stateDTO)
+                .build();
 
         addressDTO = AddressDTO.builder()
-                .city(city)
+                .cityDTO(cityDTO)
                 .street("Test Street")
                 .number("123")
                 .district("Test District")
@@ -104,4 +128,4 @@ class AddressDTOTest {
         
         assertThat(violations).isEmpty();
     }
-}
+} 

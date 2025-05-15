@@ -2,7 +2,6 @@ package com.gustavosass.orders.model.client.dto;
 
 import java.util.Date;
 
-import com.gustavosass.orders.model.address.dto.AddressCreateDTO;
 import com.gustavosass.orders.model.address.dto.AddressUpdateDTO;
 
 import jakarta.validation.constraints.Email;

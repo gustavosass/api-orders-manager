@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import com.gustavosass.orders.integration.viacep.ViaCepClient;
 import com.gustavosass.orders.mapper.CityMapper;
 import com.gustavosass.orders.model.city.City;
 import com.gustavosass.orders.model.city.dto.CityDTO;
@@ -16,9 +15,6 @@ import com.gustavosass.orders.repository.CityRepository;
 
 @Service
 public class CityService {
-
-   @Autowired
-   private ViaCepClient viaCepClient;
 
    @Autowired
    private CityRepository cityRepository;

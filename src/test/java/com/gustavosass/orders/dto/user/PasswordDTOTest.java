@@ -1,4 +1,4 @@
-package com.gustavosass.orders.dto;
+package com.gustavosass.orders.dto.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,4 +50,4 @@ class PasswordDTOTest {
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("Senha não pode estar em branco");
     }
-}
+} 
