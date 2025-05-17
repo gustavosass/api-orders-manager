@@ -58,7 +58,9 @@ public class ClientService {
 
 		Client client = clientMapper.toEntity(clientCreateDTO);
 
-		validateClient(client);
+		if (validateEmail(client) || validateDocument(client)) {
+			throw new DuplicateKeyException("Email or document already exists");
+		}
 
 		Address address = addressMapper.toEntity(addressService.create(clientCreateDTO.getAddressCreateDTO()));
 		client.setAddress(address);
@@ -69,12 +71,18 @@ public class ClientService {
 
 	public ClientDTO update(Long id, ClientUpdateDTO clientUpdateDTO) {
 
-		findById(id);
+		ClientDTO clientDb = findById(id);
 
 		Client client = clientMapper.toEntity(clientUpdateDTO);
 		client.setId(id);
 
-		validateClient(client);
+		if(validateEmail(client) && !client.getEmail().equals(clientDb.getEmail())){
+			throw new DuplicateKeyException("Email already exists");
+		}
+
+		if(validateDocument(client) && !client.getDocument().equals(clientDb.getDocument())){
+			throw new DuplicateKeyException("Document already exists");
+		}
 
 		Address address = addressMapper.toEntity(addressService.update(client.getId(), clientUpdateDTO.getAddressUpdateDTO()));
 		client.setAddress(address);
@@ -88,14 +96,11 @@ public class ClientService {
 		clientRepository.deleteById(id);
 	}
 
-	private void validateClient(Client client) {
-		if (clientRepository.findByEmail(client.getEmail()).isPresent()) {
-			throw new DuplicateKeyException("Email already exists");
-		}
-		if (clientRepository.findByDocument(client.getDocument()).isPresent()) {
-			throw new DuplicateKeyException("Document already exists");
-		}
-
+	private boolean validateEmail(Client client) {
+		return clientRepository.findByEmail(client.getEmail()).isPresent();
 	}
 
+	private boolean validateDocument(Client client) {
+		return clientRepository.findByDocument(client.getDocument()).isPresent();
+	}
 }

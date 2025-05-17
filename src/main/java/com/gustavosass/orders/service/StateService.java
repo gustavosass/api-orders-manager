@@ -50,6 +50,10 @@ public class StateService {
       return stateMapper.toDTO(stateRepository.findByIdAndCountryId(id, countryId).orElseThrow(() -> new NoSuchElementException("State not found")));
    }
 
+   public List<StateDTO> findByCountryId(Long countryId) {
+      return stateRepository.findByCountryId(countryId).stream().map(stateMapper::toDTO).toList();
+   }
+
    public StateDTO create(StateDTO stateDTO) {
 
       if (stateDTO == null) {

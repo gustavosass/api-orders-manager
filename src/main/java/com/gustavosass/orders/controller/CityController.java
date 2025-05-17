@@ -33,6 +33,11 @@ public class CityController {
       return ResponseEntity.ok(cityService.findById(id));
    }
 
+   @GetMapping("/stateId={stateId}")
+   public ResponseEntity<List<CityDTO>> findByStateId(@PathVariable Long stateId){
+      return ResponseEntity.ok(cityService.findByStateId(stateId));
+   }
+
    @PostMapping
    public ResponseEntity<CityDTO> create(@RequestBody CityDTO cityDTO){
       return ResponseEntity.ok(cityService.create(cityDTO));

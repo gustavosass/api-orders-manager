@@ -34,6 +34,11 @@ public class StateController {
       return ResponseEntity.ok(stateService.findById(id));
    }
 
+   @GetMapping("/countryId={countryId}")
+   public ResponseEntity<List<StateDTO>> findByCountryId(@PathVariable Long countryId){
+      return ResponseEntity.ok(stateService.findByCountryId(countryId));
+   }
+
    @PostMapping
    public ResponseEntity<StateDTO> create(@RequestBody StateDTO stateDTO){
       return ResponseEntity.ok(stateService.create(stateDTO));

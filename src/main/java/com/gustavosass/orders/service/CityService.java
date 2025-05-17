@@ -34,8 +34,8 @@ public class CityService {
       return cityRepository.findAll().stream().map(cityMapper::toDTO).toList();
    }
 
-   public List<City> findByStateId(Long stateId) {
-      return cityRepository.findByStateId(stateId);
+   public List<CityDTO> findByStateId(Long stateId) {
+      return cityRepository.findByStateId(stateId).stream().map(cityMapper::toDTO).toList();
    }
 
    public boolean existsByName(String name) {

@@ -1,5 +1,6 @@
 package com.gustavosass.orders.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
     boolean existsByName(String name);
 
     Optional<State> findByIdAndCountryId(Long id, Long countryId);
+
+    List<State> findByCountryId(Long countryId);
 
 }

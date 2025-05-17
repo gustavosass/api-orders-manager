@@ -33,7 +33,7 @@ public class Client {
     private String phone;
     private String document;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.DETACH, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id", unique = true)
     private Address address;
     
