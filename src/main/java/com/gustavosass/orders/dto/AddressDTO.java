@@ -1,8 +1,6 @@
-package com.gustavosass.orders.model.address.dto;
+package com.gustavosass.orders.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gustavosass.orders.model.city.dto.CityDTO;
-import com.gustavosass.orders.model.client.dto.ClientDTO;
 
 import lombok.Builder;
 import lombok.Getter;

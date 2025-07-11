@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.model.address.dto.AddressDTO;
-import com.gustavosass.orders.model.address.dto.AddressUpdateDTO;
+import com.gustavosass.orders.dto.AddressDTO;
+import com.gustavosass.orders.dto.AddressUpdateDTO;
 import com.gustavosass.orders.service.AddressService;
 
 import jakarta.validation.Valid;

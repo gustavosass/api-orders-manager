@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
 
 @SpringBootTest
 class CountryMapperTest {

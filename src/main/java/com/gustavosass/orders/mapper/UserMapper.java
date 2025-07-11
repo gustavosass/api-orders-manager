@@ -2,19 +2,19 @@ package com.gustavosass.orders.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.model.user.User;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
-import com.gustavosass.orders.model.user.dto.UserDTO;
+import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.dto.UserRegisterDTO;
+import com.gustavosass.orders.dto.UserDTO;
 
 @Component
 public class UserMapper {
 
-    public User toEntity(RegisterDTO registerDTO) {
+    public User toEntity(UserRegisterDTO userRegisterDTO) {
         return User.builder()
-                .name(registerDTO.getName())
-                .email(registerDTO.getEmail())
-                .password(registerDTO.getPassword())
-                .role(registerDTO.getRole())
+                .name(userRegisterDTO.getName())
+                .email(userRegisterDTO.getEmail())
+                .password(userRegisterDTO.getPassword())
+                .role(userRegisterDTO.getRole())
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class UserMapper {
         return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getRole());
     }
 
-    public RegisterDTO toRegisterDTO(User user) {
-        return new RegisterDTO(user.getName(), user.getEmail(), user.getPassword(), user.getRole());
+    public UserRegisterDTO toRegisterDTO(User user) {
+        return new UserRegisterDTO(user.getName(), user.getEmail(), user.getPassword(), user.getRole());
     }
 }

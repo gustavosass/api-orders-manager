@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.country;
+package com.gustavosass.orders.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

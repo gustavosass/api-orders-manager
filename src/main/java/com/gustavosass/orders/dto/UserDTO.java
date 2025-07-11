@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.user.dto;
+package com.gustavosass.orders.dto;
 
 import com.gustavosass.orders.enums.RoleEnum;
 
@@ -16,11 +16,11 @@ import lombok.Setter;
 public class UserDTO {
 
     private Long id;
-    @NotNull(message = "Nome é obrigatório")
+    @NotNull
     private String name;
-    @Email(message = "Email inválido")
-    @NotNull(message = "Email é obrigatório")
+    @Email
+    @NotNull
     private String email;
-    @NotNull(message = "Permissão é obrigatória")
+    @NotNull
     private RoleEnum role;
 }

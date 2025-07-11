@@ -3,10 +3,10 @@ package com.gustavosass.orders.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.model.address.Address;
-import com.gustavosass.orders.model.address.dto.AddressCreateDTO;
-import com.gustavosass.orders.model.address.dto.AddressDTO;
-import com.gustavosass.orders.model.address.dto.AddressUpdateDTO;
+import com.gustavosass.orders.model.Address;
+import com.gustavosass.orders.dto.AddressCreateDTO;
+import com.gustavosass.orders.dto.AddressDTO;
+import com.gustavosass.orders.dto.AddressUpdateDTO;
 
 @Component
 public class AddressMapper {

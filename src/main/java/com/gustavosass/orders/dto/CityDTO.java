@@ -1,6 +1,4 @@
-package com.gustavosass.orders.model.city.dto;
-
-import com.gustavosass.orders.model.state.dto.StateDTO;
+package com.gustavosass.orders.dto;
 
 import lombok.Builder;
 import lombok.Getter;

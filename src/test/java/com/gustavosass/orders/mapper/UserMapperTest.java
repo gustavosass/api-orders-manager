@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.gustavosass.orders.enums.RoleEnum;
-import com.gustavosass.orders.model.user.User;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
-import com.gustavosass.orders.model.user.dto.UserDTO;
+import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.dto.UserRegisterDTO;
+import com.gustavosass.orders.dto.UserDTO;
 
 @SpringBootTest
 class UserMapperTest {
@@ -19,7 +19,7 @@ class UserMapperTest {
     @Autowired
     private UserMapper userMapper;
     private User user;
-    private RegisterDTO registerDTO;
+    private UserRegisterDTO userRegisterDTO;
     private UserDTO userDTO;
 
     @BeforeEach
@@ -33,7 +33,7 @@ class UserMapperTest {
                 .role(RoleEnum.USER)
                 .build();
 
-        registerDTO = new RegisterDTO(
+        userRegisterDTO = new UserRegisterDTO(
                 "Test User",
                 "test@test.com",
                 "password",
@@ -51,13 +51,13 @@ class UserMapperTest {
     @Test
     @DisplayName("Converter RegisterDTO para User")
     void whenToEntityFromRegisterDTOThenReturnUser() {
-        User mappedUser = userMapper.toEntity(registerDTO);
+        User mappedUser = userMapper.toEntity(userRegisterDTO);
         
         assertThat(mappedUser).isNotNull();
-        assertThat(mappedUser.getName()).isEqualTo(registerDTO.getName());
-        assertThat(mappedUser.getEmail()).isEqualTo(registerDTO.getEmail());
-        assertThat(mappedUser.getPassword()).isEqualTo(registerDTO.getPassword());
-        assertThat(mappedUser.getRole()).isEqualTo(registerDTO.getRole());
+        assertThat(mappedUser.getName()).isEqualTo(userRegisterDTO.getName());
+        assertThat(mappedUser.getEmail()).isEqualTo(userRegisterDTO.getEmail());
+        assertThat(mappedUser.getPassword()).isEqualTo(userRegisterDTO.getPassword());
+        assertThat(mappedUser.getRole()).isEqualTo(userRegisterDTO.getRole());
     }
 
     @Test
@@ -87,7 +87,7 @@ class UserMapperTest {
     @Test
     @DisplayName("Converter User para RegisterDTO")
     void whenToRegisterDTOThenReturnRegisterDTO() {
-        RegisterDTO mappedDTO = userMapper.toRegisterDTO(user);
+        UserRegisterDTO mappedDTO = userMapper.toRegisterDTO(user);
         
         assertThat(mappedDTO).isNotNull();
         assertThat(mappedDTO.getName()).isEqualTo(user.getName());

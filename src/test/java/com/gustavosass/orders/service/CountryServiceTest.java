@@ -23,8 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.gustavosass.orders.mapper.CountryMapper;
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
 import com.gustavosass.orders.repository.CountryRepository;
 
 @ExtendWith(MockitoExtension.class)

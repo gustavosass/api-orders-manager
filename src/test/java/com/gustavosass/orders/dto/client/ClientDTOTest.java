@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.gustavosass.orders.model.address.dto.AddressDTO;
-import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.city.dto.CityDTO;
-import com.gustavosass.orders.model.client.dto.ClientDTO;
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
-import com.gustavosass.orders.model.state.State;
-import com.gustavosass.orders.model.state.dto.StateDTO;
+import com.gustavosass.orders.dto.AddressDTO;
+import com.gustavosass.orders.model.City;
+import com.gustavosass.orders.dto.CityDTO;
+import com.gustavosass.orders.dto.ClientDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
+import com.gustavosass.orders.model.State;
+import com.gustavosass.orders.dto.StateDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

@@ -3,8 +3,8 @@ package com.gustavosass.orders.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.model.state.State;
-import com.gustavosass.orders.model.state.dto.StateDTO;
+import com.gustavosass.orders.model.State;
+import com.gustavosass.orders.dto.StateDTO;
 
 @Component
 public class StateMapper {

@@ -27,10 +27,10 @@ import com.gustavosass.orders.security.JwtAuthenticationFilter;
 import com.gustavosass.orders.security.JwtService;
 import com.gustavosass.orders.service.UserService;
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.user.User;
-import com.gustavosass.orders.model.user.dto.PasswordDTO;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
-import com.gustavosass.orders.model.user.dto.UserDTO;
+import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.dto.UserPasswordDTO;
+import com.gustavosass.orders.dto.UserRegisterDTO;
+import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.repository.UserRepository;
 
 @WebMvcTest(UserController.class)
@@ -57,7 +57,7 @@ class UserControllerTest {
 
     private User user;
     private UserDTO userDTO;
-    private RegisterDTO registerDTO;
+    private UserRegisterDTO userRegisterDTO;
 
     @BeforeEach
     void setUp() {
@@ -70,7 +70,7 @@ class UserControllerTest {
                 .build();
 
         userDTO = new UserDTO(1L, "Test User", "test@test.com", RoleEnum.USER);
-        registerDTO = new RegisterDTO("Test User", "test@test.com", "password", RoleEnum.USER);
+        userRegisterDTO = new UserRegisterDTO("Test User", "test@test.com", "password", RoleEnum.USER);
 
         // Mock token generation for all tests that may require it
         when(jwtService.generateToken(any())).thenReturn("mocked-jwt-token");
@@ -118,14 +118,14 @@ class UserControllerTest {
     @WithMockUser(authorities = "ADMIN")
     @DisplayName("Deve criar usuário com sucesso")
     void whenCreateUserThenReturnCreatedUser() throws Exception {
-        when(userMapper.toEntity(registerDTO)).thenReturn(user);
+        when(userMapper.toEntity(userRegisterDTO)).thenReturn(user);
         when(userService.create(user)).thenReturn(user);
         when(userMapper.toDTO(user)).thenReturn(userDTO);
 
         mockMvc.perform(post("/api/v1/users")
                 .header("Authorization", "Bearer mocked-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerDTO)))
+                .content(objectMapper.writeValueAsString(userRegisterDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Test User"))
@@ -167,13 +167,13 @@ class UserControllerTest {
     @WithMockUser(authorities = "ADMIN")
     @DisplayName("Deve atualizar senha com sucesso")
     void whenUpdatePasswordThenReturn204() throws Exception {
-        PasswordDTO passwordDTO = new PasswordDTO("newpassword");
+        UserPasswordDTO userPasswordDTO = new UserPasswordDTO("newpassword");
         doNothing().when(userService).updatePassword(1L, "newpassword");
 
         mockMvc.perform(put("/api/v1/users/1/password")
                 .header("Authorization", "Bearer mocked-jwt-token")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(passwordDTO)))
+                .content(objectMapper.writeValueAsString(userPasswordDTO)))
                 .andExpect(status().isNoContent());
     }
 
@@ -183,7 +183,7 @@ class UserControllerTest {
     void whenUnauthorizedUserTriesToCreateThenReturn403() throws Exception {
         mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerDTO)))
+                .content(objectMapper.writeValueAsString(userRegisterDTO)))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -199,11 +199,11 @@ class UserControllerTest {
     @WithMockUser
     @DisplayName("Deve retornar 403 quando usuário não autorizado tentar atualizar senha")
     void whenUnauthorizedUserTriesToUpdatePasswordThenReturn403() throws Exception {
-        PasswordDTO passwordDTO = new PasswordDTO("newpassword");
+        UserPasswordDTO userPasswordDTO = new UserPasswordDTO("newpassword");
 
         mockMvc.perform(put("/api/v1/users/1/password")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(passwordDTO)))
+                .content(objectMapper.writeValueAsString(userPasswordDTO)))
                 .andExpect(status().isUnauthorized());
     }
 }

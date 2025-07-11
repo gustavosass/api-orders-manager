@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gustavosass.orders.model.user.dto.AuthenticationRequestDTO;
+import com.gustavosass.orders.dto.AuthenticationRequestDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

@@ -1,10 +1,12 @@
 package com.gustavosass.orders.mapper;
 
+import com.gustavosass.orders.dto.CreateCityDTO;
+import com.gustavosass.orders.model.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.city.dto.CityDTO;
+import com.gustavosass.orders.model.City;
+import com.gustavosass.orders.dto.CityDTO;
 
 @Component
 public class CityMapper {
@@ -26,5 +28,12 @@ public class CityMapper {
                .name(city.getName())
                .stateDTO(stateMapper.toDTO(city.getState()))
                .build();
+   }
+
+   public City toEntity(CreateCityDTO createCityDTO, State state){
+      return City.builder()
+              .name(createCityDTO.getName())
+              .state(state)
+              .build();
    }
 }

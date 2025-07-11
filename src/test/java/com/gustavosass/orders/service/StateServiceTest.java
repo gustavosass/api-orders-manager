@@ -24,10 +24,10 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.gustavosass.orders.mapper.CountryMapper;
 import com.gustavosass.orders.mapper.StateMapper;
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
-import com.gustavosass.orders.model.state.State;
-import com.gustavosass.orders.model.state.dto.StateDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
+import com.gustavosass.orders.model.State;
+import com.gustavosass.orders.dto.StateDTO;
 import com.gustavosass.orders.repository.StateRepository;
 
 @ExtendWith(MockitoExtension.class)

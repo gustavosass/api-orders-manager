@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.gustavosass.orders.model.address.Address;
-import com.gustavosass.orders.model.address.dto.AddressDTO;
-import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.state.State;
+import com.gustavosass.orders.model.Address;
+import com.gustavosass.orders.dto.AddressDTO;
+import com.gustavosass.orders.model.City;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.model.State;
 
 @SpringBootTest
 class AddressMapperTest {

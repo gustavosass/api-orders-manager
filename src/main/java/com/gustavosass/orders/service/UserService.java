@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.gustavosass.orders.model.user.User;
+import com.gustavosass.orders.model.User;
 import com.gustavosass.orders.repository.UserRepository;
 
 @Service

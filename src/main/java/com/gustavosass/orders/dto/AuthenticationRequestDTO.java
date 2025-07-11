@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.user.dto;
+package com.gustavosass.orders.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationRequestDTO {
-    @NotNull(message = "O email não pode ser nulo")
-    @NotBlank(message = "O email não pode estar em branco")
-    @Email(message = "O formato do email é inválido")
+    @NotNull
+    @NotBlank
+    @Email
     private String email;
 
-    @NotNull(message = "A senha não pode ser nula")
-    @NotBlank(message = "A senha não pode estar em branco")
+    @NotNull
+    @NotBlank
     private String password;
 }

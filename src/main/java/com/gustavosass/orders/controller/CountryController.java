@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.dto.CountryDTO;
 import com.gustavosass.orders.service.CountryService;
 
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.country.dto;
+package com.gustavosass.orders.dto;
 
 import lombok.Builder;
 import lombok.Getter;

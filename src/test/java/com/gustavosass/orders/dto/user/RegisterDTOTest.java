@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gustavosass.orders.enums.RoleEnum;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
+import com.gustavosass.orders.dto.UserRegisterDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -18,12 +18,12 @@ import jakarta.validation.Validator;
 class RegisterDTOTest {
     
     private Validator validator;
-    private RegisterDTO registerDTO;
+    private UserRegisterDTO userRegisterDTO;
 
     @BeforeEach
     void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
-        registerDTO = RegisterDTO.builder()
+        userRegisterDTO = UserRegisterDTO.builder()
                 .name("Test User")
                 .email("test@test.com")
                 .password("password123")
@@ -34,15 +34,15 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve validar quando todos os campos são válidos")
     void whenAllFieldsValidThenValidateSuccess() {
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).isEmpty();
     }
 
     @Test
     @DisplayName("Deve falhar na validação quando o nome é nulo")
     void whenNameIsNullThenValidationFails() {
-        registerDTO.setName(null);
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setName(null);
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("O nome não pode ser nulo", "O nome não pode estar em branco");
@@ -51,8 +51,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o nome está em branco")
     void whenNameIsBlankThenValidationFails() {
-        registerDTO.setName("");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setName("");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("O nome deve ter entre 3 e 255 caracteres", "O nome não pode estar em branco");
@@ -61,8 +61,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o nome é muito curto")
     void whenNameIsTooShortThenValidationFails() {
-        registerDTO.setName("ab");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setName("ab");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("O nome deve ter entre 3 e 255 caracteres");
     }
@@ -70,8 +70,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o email é inválido")
     void whenEmailIsInvalidThenValidationFails() {
-        registerDTO.setEmail("invalid-email");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setEmail("invalid-email");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("O formato do email é inválido");
     }
@@ -79,8 +79,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o email é nulo")
     void whenEmailIsNullThenValidationFails() {
-        registerDTO.setEmail(null);
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setEmail(null);
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("O email não pode ser nulo", "O email não pode estar em branco");
@@ -89,8 +89,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o email está em branco")
     void whenEmailIsBlankThenValidationFails() {
-        registerDTO.setEmail("");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setEmail("");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("O email não pode estar em branco");
     }
@@ -98,8 +98,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando a senha é muito curta")
     void whenPasswordIsTooShortThenValidationFails() {
-        registerDTO.setPassword("12345");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setPassword("12345");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("A senha deve ter no mínimo 6 caracteres");
     }
@@ -107,8 +107,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando a senha é nula")
     void whenPasswordIsNullThenValidationFails() {
-        registerDTO.setPassword(null);
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setPassword(null);
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("A senha não pode ser nula", "A senha não pode estar em branco");
@@ -117,8 +117,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando a senha está em branco")
     void whenPasswordIsBlankThenValidationFails() {
-        registerDTO.setPassword("");
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setPassword("");
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("A senha deve ter no mínimo 6 caracteres", "A senha não pode estar em branco");
@@ -127,8 +127,8 @@ class RegisterDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando o perfil é nulo")
     void whenRoleIsNullThenValidationFails() {
-        registerDTO.setRole(null);
-        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+        userRegisterDTO.setRole(null);
+        Set<ConstraintViolation<UserRegisterDTO>> violations = validator.validate(userRegisterDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("O perfil não pode ser nulo");
     }

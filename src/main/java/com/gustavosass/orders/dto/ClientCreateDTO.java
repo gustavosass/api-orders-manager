@@ -1,8 +1,8 @@
-package com.gustavosass.orders.model.client.dto;
+package com.gustavosass.orders.dto;
 
 import java.util.Date;
 
-import com.gustavosass.orders.model.address.dto.AddressCreateDTO;
+import com.gustavosass.orders.dto.AddressCreateDTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,20 +19,20 @@ import lombok.NoArgsConstructor;
 public class ClientCreateDTO {
     private Long id;
     
-    @NotBlank(message = "Nome é obrigatório")
+    @NotBlank
     private String name;
     
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
+    @NotBlank
+    @Email
     private String email;
     
     private Date birthDate;
     
     private String phone;
     
-    @NotBlank(message = "Documento é obrigatório")
+    @NotBlank
     private String document; 
 
-    @NotNull(message = "Endereço é obrigatório")
+    @NotNull
     private AddressCreateDTO addressCreateDTO;
 }

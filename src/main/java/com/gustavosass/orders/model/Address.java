@@ -1,7 +1,4 @@
-package com.gustavosass.orders.model.address;
-
-import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.client.Client;
+package com.gustavosass.orders.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

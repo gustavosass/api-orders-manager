@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gustavosass.orders.model.user.dto.AuthenticationResponseDTO;
+import com.gustavosass.orders.dto.AuthenticationResponseDTO;
 
 class AuthenticationResponseDTOTest {
 

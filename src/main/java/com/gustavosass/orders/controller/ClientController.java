@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.model.client.dto.ClientCreateDTO;
-import com.gustavosass.orders.model.client.dto.ClientDTO;
-import com.gustavosass.orders.model.client.dto.ClientUpdateDTO;
+import com.gustavosass.orders.dto.ClientCreateDTO;
+import com.gustavosass.orders.dto.ClientDTO;
+import com.gustavosass.orders.dto.ClientUpdateDTO;
 import com.gustavosass.orders.service.ClientService;
 
 import jakarta.validation.Valid;

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.user.User;
-import com.gustavosass.orders.model.user.dto.AuthenticationRequestDTO;
-import com.gustavosass.orders.model.user.dto.AuthenticationResponseDTO;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
+import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.dto.AuthenticationRequestDTO;
+import com.gustavosass.orders.dto.AuthenticationResponseDTO;
+import com.gustavosass.orders.dto.UserRegisterDTO;
 import com.gustavosass.orders.security.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,14 +40,14 @@ public class AuthenticationService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
-    public User register(RegisterDTO registerDTO) {
+    public User register(UserRegisterDTO userRegisterDTO) {
 
-        if (userService.existsByEmail(registerDTO.getEmail())) {
+        if (userService.existsByEmail(userRegisterDTO.getEmail())) {
             throw new RuntimeException("Email already exist");
         }
 
-        User user = userMapper.toEntity(registerDTO);
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        User user = userMapper.toEntity(userRegisterDTO);
+        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
         
         return userService.create(user);
     }

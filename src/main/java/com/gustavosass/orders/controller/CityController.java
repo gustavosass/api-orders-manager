@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavosass.orders.model.city.dto.CityDTO;
+import com.gustavosass.orders.dto.CityDTO;
 import com.gustavosass.orders.service.CityService;
 
 @RestController

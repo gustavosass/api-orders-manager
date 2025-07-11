@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.config.ApplicationConfig;
-import com.gustavosass.orders.model.user.dto.AuthenticationRequestDTO;
-import com.gustavosass.orders.model.user.dto.AuthenticationResponseDTO;
+import com.gustavosass.orders.dto.AuthenticationRequestDTO;
+import com.gustavosass.orders.dto.AuthenticationResponseDTO;
 import com.gustavosass.orders.security.SecurityConfiguration;
 import com.gustavosass.orders.security.JwtAuthenticationFilter;
 import com.gustavosass.orders.service.AuthenticationService;

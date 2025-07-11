@@ -9,8 +9,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.gustavosass.orders.mapper.CountryMapper;
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
 import com.gustavosass.orders.repository.CountryRepository;
 
 @Service

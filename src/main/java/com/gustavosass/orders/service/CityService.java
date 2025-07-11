@@ -3,14 +3,16 @@ package com.gustavosass.orders.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.gustavosass.orders.dto.CreateCityDTO;
+import com.gustavosass.orders.model.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.gustavosass.orders.mapper.CityMapper;
-import com.gustavosass.orders.model.city.City;
-import com.gustavosass.orders.model.city.dto.CityDTO;
-import com.gustavosass.orders.model.state.dto.StateDTO;
+import com.gustavosass.orders.model.City;
+import com.gustavosass.orders.dto.CityDTO;
+import com.gustavosass.orders.dto.StateDTO;
 import com.gustavosass.orders.repository.CityRepository;
 
 @Service
@@ -46,11 +48,10 @@ public class CityService {
       return cityMapper.toDTO(cityRepository.findByIdAndStateId(id, stateId).orElseThrow(() -> new NoSuchElementException("City not found")));
    }
 
-   public CityDTO create(CityDTO cityDTO) {
+   public CityDTO create(CreateCityDTO createCityDTO) {
 
-      validateCity(cityDTO);
+      State state = stateService.findById(createCityDTO.getIdState());
 
-      StateDTO stateDb = stateService.findById(cityDTO.getStateDTO().getId());
       cityDTO.setStateDTO(stateDb);
       City city = cityMapper.toEntity(cityDTO);
 

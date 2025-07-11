@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.user.dto;
+package com.gustavosass.orders.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PasswordDTO {
+public class UserPasswordDTO {
     @NotNull(message = "Senha não pode ser nula")
     @NotBlank(message = "Senha não pode estar em branco")
     private String password;

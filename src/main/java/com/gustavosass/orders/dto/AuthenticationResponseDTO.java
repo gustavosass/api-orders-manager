@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.user.dto;
+package com.gustavosass.orders.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -23,7 +23,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gustavosass.orders.config.ApplicationConfig;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.dto.CountryDTO;
 import com.gustavosass.orders.security.JwtAuthenticationFilter;
 import com.gustavosass.orders.security.JwtService;
 import com.gustavosass.orders.repository.UserRepository;

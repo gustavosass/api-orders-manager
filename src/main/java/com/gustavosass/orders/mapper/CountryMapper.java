@@ -2,8 +2,8 @@ package com.gustavosass.orders.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.gustavosass.orders.model.country.Country;
-import com.gustavosass.orders.model.country.dto.CountryDTO;
+import com.gustavosass.orders.model.Country;
+import com.gustavosass.orders.dto.CountryDTO;
 
 @Component
 public class CountryMapper {

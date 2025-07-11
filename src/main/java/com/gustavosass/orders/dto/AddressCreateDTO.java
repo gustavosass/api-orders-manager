@@ -1,4 +1,4 @@
-package com.gustavosass.orders.model.address.dto;
+package com.gustavosass.orders.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

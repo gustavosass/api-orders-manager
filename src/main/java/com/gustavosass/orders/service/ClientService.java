@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.gustavosass.orders.mapper.AddressMapper;
 import com.gustavosass.orders.mapper.ClientMapper;
-import com.gustavosass.orders.model.address.Address;
-import com.gustavosass.orders.model.client.Client;
-import com.gustavosass.orders.model.client.dto.ClientCreateDTO;
-import com.gustavosass.orders.model.client.dto.ClientDTO;
-import com.gustavosass.orders.model.client.dto.ClientUpdateDTO;
+import com.gustavosass.orders.model.Address;
+import com.gustavosass.orders.model.Client;
+import com.gustavosass.orders.dto.ClientCreateDTO;
+import com.gustavosass.orders.dto.ClientDTO;
+import com.gustavosass.orders.dto.ClientUpdateDTO;
 import com.gustavosass.orders.repository.ClientRepository;
 
 @Service

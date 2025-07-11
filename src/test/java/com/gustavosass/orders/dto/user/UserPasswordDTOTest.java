@@ -8,35 +8,35 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gustavosass.orders.model.user.dto.PasswordDTO;
+import com.gustavosass.orders.dto.UserPasswordDTO;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-class PasswordDTOTest {
+class UserPasswordDTOTest {
     
     private Validator validator;
-    private PasswordDTO passwordDTO;
+    private UserPasswordDTO userPasswordDTO;
 
     @BeforeEach
     void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
-        passwordDTO = new PasswordDTO("newPassword123");
+        userPasswordDTO = new UserPasswordDTO("newPassword123");
     }
 
     @Test
     @DisplayName("Deve validar quando a senha é válida")
     void whenPasswordIsValidThenValidateSuccess() {
-        Set<ConstraintViolation<PasswordDTO>> violations = validator.validate(passwordDTO);
+        Set<ConstraintViolation<UserPasswordDTO>> violations = validator.validate(userPasswordDTO);
         assertThat(violations).isEmpty();
     }
 
     @Test
     @DisplayName("Deve falhar na validação quando a senha é nula")
     void whenPasswordIsNullThenValidationFails() {
-        passwordDTO.setPassword(null);
-        Set<ConstraintViolation<PasswordDTO>> violations = validator.validate(passwordDTO);
+        userPasswordDTO.setPassword(null);
+        Set<ConstraintViolation<UserPasswordDTO>> violations = validator.validate(userPasswordDTO);
         assertThat(violations).hasSize(2);
         assertThat(violations).extracting(ConstraintViolation::getMessage)
                 .containsExactlyInAnyOrder("Senha não pode ser nula", "Senha não pode estar em branco");
@@ -45,8 +45,8 @@ class PasswordDTOTest {
     @Test
     @DisplayName("Deve falhar na validação quando a senha está em branco")
     void whenPasswordIsBlankThenValidationFails() {
-        passwordDTO.setPassword("");
-        Set<ConstraintViolation<PasswordDTO>> violations = validator.validate(passwordDTO);
+        userPasswordDTO.setPassword("");
+        Set<ConstraintViolation<UserPasswordDTO>> violations = validator.validate(userPasswordDTO);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("Senha não pode estar em branco");
     }

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gustavosass.orders.mapper.UserMapper;
-import com.gustavosass.orders.model.user.User;
-import com.gustavosass.orders.model.user.dto.PasswordDTO;
-import com.gustavosass.orders.model.user.dto.RegisterDTO;
-import com.gustavosass.orders.model.user.dto.UserDTO;
+import com.gustavosass.orders.model.User;
+import com.gustavosass.orders.dto.UserPasswordDTO;
+import com.gustavosass.orders.dto.UserRegisterDTO;
+import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.service.UserService;
 
 import jakarta.validation.Valid;
@@ -47,8 +47,8 @@ public class UserController {
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<UserDTO> create(@Valid @RequestBody RegisterDTO registerDTO) {
-        User user = userMapper.toEntity(registerDTO);
+    public ResponseEntity<UserDTO> create(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
+        User user = userMapper.toEntity(userRegisterDTO);
         user = userService.create(user);
         return ResponseEntity.ok(userMapper.toDTO(user));
     }
@@ -69,8 +69,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody PasswordDTO passwordDTO) {
-        userService.updatePassword(id, passwordDTO.getPassword());
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(id, userPasswordDTO.getPassword());
         return ResponseEntity.noContent().build();
     }
 
