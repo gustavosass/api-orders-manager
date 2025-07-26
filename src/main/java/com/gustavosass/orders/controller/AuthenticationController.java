@@ -15,9 +15,11 @@ import com.gustavosass.orders.service.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Autenticação", description = "Operações de autenticação e login")
 public class AuthenticationController {
 
     @Autowired

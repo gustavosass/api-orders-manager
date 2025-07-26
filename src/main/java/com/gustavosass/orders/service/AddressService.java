@@ -1,89 +1,46 @@
 package com.gustavosass.orders.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.gustavosass.orders.mapper.AddressMapper;
-import com.gustavosass.orders.mapper.CityMapper;
-import com.gustavosass.orders.mapper.CountryMapper;
-import com.gustavosass.orders.mapper.StateMapper;
 import com.gustavosass.orders.model.Address;
-import com.gustavosass.orders.dto.AddressCreateDTO;
-import com.gustavosass.orders.dto.AddressDTO;
-import com.gustavosass.orders.dto.AddressUpdateDTO;
-import com.gustavosass.orders.model.City;
-import com.gustavosass.orders.model.Country;
-import com.gustavosass.orders.model.State;
 import com.gustavosass.orders.repository.AddressRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class AddressService {
 
    @Autowired
    private AddressRepository addressRepository;
 
-   @Autowired
-   private AddressMapper addressMapper;
-
-   @Autowired
-   private CountryService countryService;
-
-   @Autowired
-   private StateService stateService;
-
-   @Autowired
-   private CityService cityService;
-
-   @Autowired
-   private CountryMapper countryMapper;
-
-   @Autowired
-   private StateMapper stateMapper;
-
-   @Autowired
-   private CityMapper cityMapper;
-
-   public AddressDTO findById(Long id) {
-
-      return addressMapper.toDTO(addressRepository.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Address not found")));
+   public Address findById(Long id) {
+      return addressRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Address not found"));
    }
 
-   public AddressDTO create(AddressCreateDTO addressCreateDTO) {
-
-      City city = validateCityHierarchy(addressCreateDTO.getCountryId(), addressCreateDTO.getStateId(),
-            addressCreateDTO.getCityId());
-
-      Address address = addressMapper.toEntity(addressCreateDTO);
-      address.setCity(city);
-
-      return addressMapper.toDTO(
-            addressRepository.save(address));
+   public List<Address> findAll() {
+      return addressRepository.findAll();
    }
 
-   public AddressDTO update(Long id, AddressUpdateDTO addressUpdateDTO) {
+   @Transactional
+   public Address create(Address address) {
+      return addressRepository.save(address);
+   }
 
+   @Transactional
+   public Address update(Long id, Address address) {
       findById(id);
-
-      City city = validateCityHierarchy(addressUpdateDTO.getCountryId(), addressUpdateDTO.getStateId(),
-            addressUpdateDTO.getCityId());
-
-      Address address = addressMapper.toEntity(addressUpdateDTO);
       address.setId(id);
-      address.setCity(city);
-      return addressMapper.toDTO(addressRepository.save(address));
+      return addressRepository.save(address);
    }
 
-   private City validateCityHierarchy(Long countryId, Long stateId, Long cityId) {
-
-      Country country = countryMapper.toEntity(countryService.findById(countryId));
-      State state = stateMapper.toEntity(stateService.findByIdAndCountryId(stateId, countryId));
-      City city = cityMapper.toEntity(cityService.findByIdAndStateId(cityId, stateId));
-
-      state.setCountry(country);
-      city.setState(state);
-      return city;
+   @Transactional
+   public void delete(Long id) {
+      findById(id);
+      addressRepository.deleteById(id);
    }
 }

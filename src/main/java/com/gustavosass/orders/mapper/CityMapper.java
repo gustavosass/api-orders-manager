@@ -30,7 +30,7 @@ public class CityMapper {
                .build();
    }
 
-   public City toEntity(CreateCityDTO createCityDTO, State state){
+   public City toEntity(CreateCityDTO createCityDTO, State state) {
       return City.builder()
               .name(createCityDTO.getName())
               .state(state)

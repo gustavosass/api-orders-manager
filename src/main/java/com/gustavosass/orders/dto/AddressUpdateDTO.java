@@ -10,7 +10,6 @@ import lombok.Setter;
 @Builder
 public class AddressUpdateDTO {
 
-   private Long id;
    private String street;
    private String number;
    private String district;
@@ -20,10 +19,5 @@ public class AddressUpdateDTO {
    @NotNull(message = "City ID cannot be null")
    private Long cityId;
 
-   @NotNull(message = "State ID cannot be null")
-   private Long stateId;
-
-   @NotNull(message = "Country ID cannot be null")
-   private Long countryId;
 }
 

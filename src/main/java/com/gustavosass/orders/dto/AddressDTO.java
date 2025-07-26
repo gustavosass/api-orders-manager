@@ -1,7 +1,5 @@
 package com.gustavosass.orders.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +21,5 @@ public class AddressDTO {
     
     private String postalCode;
     
-    private CityDTO cityDTO;
-    
-    @JsonIgnore
-    private ClientDTO clientDTO;
-
+    private Long cityId;
 }

@@ -1,6 +1,7 @@
 package com.gustavosass.orders.config;
 
 import java.time.Duration;
+import java.util.HashMap;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.netty.http.client.HttpClient;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -62,19 +64,30 @@ public class ApplicationConfig {
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "Bearer Authentication";
 
+        // Configurações de segurança
+        SecurityScheme securityScheme = new SecurityScheme()
+                .name(securitySchemeName)
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("Bearer")
+                .bearerFormat("JWT");
+
+        // Configurações de UI
+        Info apiInfo = new Info()
+                .title("Loja Lari Verso Biscuit")
+                .version("1.0")
+                .description("Sistema de gerenciamento da loja");
+
+        Map<String, Object> extensions = new HashMap<>();
+        extensions.put("x-syntax-highlight", "tomorrow-night");
+
         return new OpenAPI()
-                .info(new Info()
-                    .title("API Orders Management")
-                    .version("1.0"))
+                .info(apiInfo)
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new io.swagger.v3.oas.models.Components()
-                    .addSecuritySchemes(securitySchemeName,
-                        new SecurityScheme()
-                            .name(securitySchemeName)
-                            .type(SecurityScheme.Type.HTTP)
-                            .scheme("Bearer")
-                            .bearerFormat("JWT")));
+                    .addSecuritySchemes(securitySchemeName, securityScheme))
+                .extensions(extensions);
     }
+
 
     @Bean
     public Validator validator() {

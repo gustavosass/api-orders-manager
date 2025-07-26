@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,10 +26,6 @@ public class Address {
     private String complement;
     private String postalCode;
 
-    @OneToOne
-    @JoinColumn(name = "city_id")
-    private City city;
+    private Long cityId;
 
-    @OneToOne(mappedBy = "address")
-    private Client client;
 }

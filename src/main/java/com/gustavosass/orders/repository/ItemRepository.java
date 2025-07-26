@@ -1,11 +1,9 @@
 package com.gustavosass.orders.repository;
 
-
+import com.gustavosass.orders.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.gustavosass.orders.model.Address;
-
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 }

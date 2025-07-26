@@ -22,9 +22,11 @@ import com.gustavosass.orders.dto.UserDTO;
 import com.gustavosass.orders.service.UserService;
 
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "Usuários", description = "Operações relacionadas aos usuários")
 public class UserController {
 
     @Autowired
@@ -45,19 +47,23 @@ public class UserController {
         return ResponseEntity.ok(usersDTO);
     }
     
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDTO> create(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         User user = userMapper.toEntity(userRegisterDTO);
-        user = userService.create(user);
-        return ResponseEntity.ok(userMapper.toDTO(user));
+        User created = userService.create(user);
+        return ResponseEntity.ok(userMapper.toDTO(created));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
-        user = userService.update(id, user);
-        return ResponseEntity.ok(userMapper.toDTO(user));
+        User updated = userService.update(id, user);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userMapper.toDTO(updated));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
