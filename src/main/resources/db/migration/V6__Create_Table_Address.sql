@@ -6,5 +6,5 @@ create table address(
     complement varchar(255),
     postal_code varchar(255),
     city_id integer,
-    CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES city(id) ON DELETE CASCADE
+    CONSTRAINT FK_ADDRESS_CITY FOREIGN KEY (city_id) REFERENCES city(id) ON DELETE CASCADE
 );

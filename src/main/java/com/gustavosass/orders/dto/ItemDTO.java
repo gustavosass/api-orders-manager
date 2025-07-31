@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ItemDTO {
-
-    Long id;
-    String name;
-    String description;
+    private Long id;
+    private String name;
+    private String description;
 }

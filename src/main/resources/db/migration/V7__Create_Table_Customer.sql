@@ -12,6 +12,6 @@ create table customer(
     complement varchar(255),
     postal_code varchar(255),
     address_id integer,
-    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES address(id),
-    CONSTRAINT unique_address UNIQUE (address_id)
+    CONSTRAINT FK_CUSTOMER_ADDRESS FOREIGN KEY (address_id) REFERENCES address(id),
+    CONSTRAINT UNIQUE_ADDRESS UNIQUE (address_id)
 );

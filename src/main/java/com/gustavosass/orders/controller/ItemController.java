@@ -26,7 +26,7 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<List<ItemDTO>> findAll() {
         List<Item> items = itemService.findAll();
-        return ResponseEntity.ok(items.stream().map(itemMapper::toDto).toList());
+        return ResponseEntity.ok(items.stream().map(itemMapper::toDTO).toList());
     }
 
     @GetMapping("/{id}")
@@ -35,21 +35,21 @@ public class ItemController {
         if (item == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(itemMapper.toDto(item));
+        return ResponseEntity.ok(itemMapper.toDTO(item));
     }
 
     @PostMapping
     public ResponseEntity<ItemDTO> create(@RequestBody @Valid ItemCreateDTO dto) {
         Item item = itemMapper.toEntity(dto);
         item = itemService.create(item);
-        return ResponseEntity.ok(itemMapper.toDto(item));
+        return ResponseEntity.ok(itemMapper.toDTO(item));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ItemDTO> update(@PathVariable Long id, @RequestBody @Valid ItemUpdateDTO dto) {
         Item item = itemMapper.toEntity(dto);
         item = itemService.update(id, item);
-        return ResponseEntity.ok(itemMapper.toDto(item));
+        return ResponseEntity.ok(itemMapper.toDTO(item));
     }
 
     @DeleteMapping("/{id}")

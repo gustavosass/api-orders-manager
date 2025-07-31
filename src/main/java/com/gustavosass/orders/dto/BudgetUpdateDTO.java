@@ -1,14 +1,15 @@
 package com.gustavosass.orders.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ItemCreateDTO {
+@Builder
+public class BudgetUpdateDTO {
 
     @NotNull
-    String name;
-    String description;
+    private Long customerId;
 }

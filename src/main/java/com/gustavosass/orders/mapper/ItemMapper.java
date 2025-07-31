@@ -31,8 +31,9 @@ public class ItemMapper {
                 .build();
     }
 
-    public ItemDTO toDto(Item item){
+    public ItemDTO toDTO(Item item){
         return ItemDTO.builder()
+                .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .build();

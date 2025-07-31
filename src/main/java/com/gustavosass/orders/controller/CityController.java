@@ -49,15 +49,7 @@ public class CityController {
 
    @PostMapping
    public ResponseEntity<CityDTO> create(@RequestBody @Valid CreateCityDTO createCityDTO) {
-      if (createCityDTO.getIdState() == null) {
-         return ResponseEntity.badRequest().build();
-      }
-      State state = new State();
-      state.setId(createCityDTO.getIdState());
-      City city = City.builder()
-          .name(createCityDTO.getName())
-          .state(state)
-          .build();
+      City city = cityMapper.toEntity(createCityDTO);
       City created = cityService.create(city);
       return ResponseEntity.ok(cityMapper.toDTO(created));
    }

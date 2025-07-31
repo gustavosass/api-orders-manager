@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ItemService {
@@ -22,7 +23,7 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public Item findById(Long id) {
-        return itemRepository.findById(id).orElse(null);
+        return itemRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Item not found."));
     }
 
     @Transactional
@@ -41,6 +42,7 @@ public class ItemService {
 
     @Transactional
     public void delete(Long id) {
+        findById(id);
         itemRepository.deleteById(id);
     }
 
