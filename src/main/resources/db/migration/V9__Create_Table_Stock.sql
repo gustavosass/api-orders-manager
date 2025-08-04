@@ -1,4 +1,4 @@
-CREATE TABLE stocks (
+CREATE TABLE stock (
     id serial primary key,
     initial_quantity DECIMAL(15,4) NOT NULL,
     current_quantity DECIMAL(15,4) NOT NULL,

@@ -42,10 +42,10 @@ public class StockService {
         Item existingItem = itemService.findById(stock.getItem().getId());
 
         existingStock.setItem(existingItem);
-        existingStock.setEntry_date(stock.getEntry_date());
-        existingStock.setInitial_quantity(stock.getInitial_quantity());
-        existingStock.setCurrent_quantity(stock.getCurrent_quantity());
-        existingStock.setCost_price(stock.getCost_price());
+        existingStock.setEntryDate(stock.getEntryDate());
+        existingStock.setInitialQuantity(stock.getInitialQuantity());
+        existingStock.setCurrentQuantity(stock.getCurrentQuantity());
+        existingStock.setCostPrice(stock.getCostPrice());
 
         return stockRepository.save(existingStock);
     }

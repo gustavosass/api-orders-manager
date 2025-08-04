@@ -21,8 +21,10 @@ import com.gustavosass.orders.service.CustomerAddressService;
 
 import jakarta.validation.Valid;
 
+import java.util.NoSuchElementException;
+
 @RestController
-@RequestMapping("/api/v1/addresses")
+@RequestMapping("/api/v1/{customerId}/address")
 @Tag(name = "Endereços", description = "Operações relacionadas aos endereços")
 public class AddressController {
 
@@ -64,13 +66,12 @@ public class AddressController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable Long customerId) {
+    public void delete(@PathVariable Long customerId) {
         Address address = customerAddressService.getCustomerAddress(customerId);
         if (address == null) {
-            return ResponseEntity.notFound().build();
+            throw new NoSuchElementException("Unregistered address");
         }
         customerAddressService.removeCustomerAddress(customerId);
-        return ResponseEntity.noContent().build();
     }
 }
 

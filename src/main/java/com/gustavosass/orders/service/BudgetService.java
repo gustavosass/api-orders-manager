@@ -1,6 +1,9 @@
 package com.gustavosass.orders.service;
 
+import com.gustavosass.orders.enums.StatusBudgetEnum;
+import com.gustavosass.orders.mapper.CustomerMapper;
 import com.gustavosass.orders.model.Budget;
+import com.gustavosass.orders.model.Customer;
 import com.gustavosass.orders.model.Item;
 import com.gustavosass.orders.model.Stock;
 import com.gustavosass.orders.repository.BudgetRepository;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,6 +22,9 @@ public class BudgetService {
 
     @Autowired
     private BudgetRepository budgetRepository;
+
+    @Autowired
+    private CustomerService customerService;
 
 
     @Transactional(readOnly = true)
@@ -31,15 +39,24 @@ public class BudgetService {
 
     @Transactional
     public Budget create (Budget budget){
+        Customer customer = customerService.findById(budget.getCustomer().getId());
+        Integer number = budgetRepository.findMaxId();
+        budget.setNumber(String.format("ORC%03d", number == null ? 1 : number));
+        budget.setBudgetDate(new Date());
+        budget.setStatus(StatusBudgetEnum.PEIDING);
+        budget.setCustomer(customer);
         return budgetRepository.save(budget);
     }
 
     @Transactional
     public Budget update (Long id, Budget budget){
-        Budget existingStock = findById(id);
+        Budget existingBudget = findById(id);
 
-
-        return budgetRepository.save(existingStock);
+        if (! budget.getCustomer().getId().equals(existingBudget.getCustomer().getId())){
+            Customer existingCustomer = customerService.findById(budget.getCustomer().getId());
+            existingBudget.setCustomer(existingCustomer);
+        }
+        return budgetRepository.save(existingBudget);
     }
 
     @Transactional

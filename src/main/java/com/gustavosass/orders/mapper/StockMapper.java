@@ -19,10 +19,10 @@ public class StockMapper {
 
         return StockDTO.builder()
                 .id(stock.getId())
-                .initial_quantity(stock.getInitial_quantity())
-                .current_quantity(stock.getCurrent_quantity())
-                .cost_price(stock.getCost_price())
-                .entry_date(stock.getEntry_date())
+                .initialQuantity(stock.getInitialQuantity())
+                .currentQuantity(stock.getCurrentQuantity())
+                .costPrice(stock.getCostPrice())
+                .entryDate(stock.getEntryDate())
                 .itemDTO(itemMapper.toDTO(stock.getItem()))
                 .build();
     }
@@ -32,10 +32,10 @@ public class StockMapper {
 
         return Stock.builder()
                 .id(dto.getId())
-                .initial_quantity(dto.getInitial_quantity())
-                .current_quantity(dto.getCurrent_quantity())
-                .cost_price(dto.getCost_price())
-                .entry_date(dto.getEntry_date())
+                .initialQuantity(dto.getInitialQuantity())
+                .currentQuantity(dto.getCurrentQuantity())
+                .costPrice(dto.getCostPrice())
+                .entryDate(dto.getEntryDate())
                 .item(itemMapper.toEntity(dto.getItemDTO()))
                 .build();
     }
@@ -44,10 +44,10 @@ public class StockMapper {
         if (dto == null) return null;
 
         return Stock.builder()
-                .initial_quantity(dto.getInitial_quantity())
-                .current_quantity(dto.getCurrent_quantity())
-                .cost_price(dto.getCost_price())
-                .entry_date(dto.getEntry_date())
+                .initialQuantity(dto.getInitial_quantity())
+                .currentQuantity(dto.getCurrent_quantity())
+                .costPrice(dto.getCost_price())
+                .entryDate(dto.getEntry_date())
                 .item(Item.builder()
                         .id(dto.getItemId())
                         .build())
@@ -58,10 +58,10 @@ public class StockMapper {
         if (dto == null) return null;
 
         return Stock.builder()
-                .initial_quantity(dto.getInitial_quantity())
-                .current_quantity(dto.getCurrent_quantity())
-                .cost_price(dto.getCost_price())
-                .entry_date(dto.getEntry_date())
+                .initialQuantity(dto.getInitial_quantity())
+                .currentQuantity(dto.getCurrent_quantity())
+                .costPrice(dto.getCost_price())
+                .entryDate(dto.getEntry_date())
                 .item(Item.builder()
                         .id(dto.getItemId())
                         .build())

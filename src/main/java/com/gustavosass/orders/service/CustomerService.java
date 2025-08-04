@@ -5,6 +5,7 @@ import com.gustavosass.orders.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomerService {
@@ -17,7 +18,7 @@ public class CustomerService {
     }
 
     public Customer findById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found."));
     }
 
     public Customer create(Customer customer) {

@@ -1,13 +1,11 @@
 package com.gustavosass.orders.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class CreateStateDTO {
 
    @NotNull(message = "Name cannot be null")

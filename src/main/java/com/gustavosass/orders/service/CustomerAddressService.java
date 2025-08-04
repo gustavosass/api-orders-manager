@@ -26,8 +26,6 @@ public class CustomerAddressService {
 
     public Address updateCustomerAddress(Long customerId, Address address) {
         Customer customer = customerService.findById(customerId);
-        if (customer == null)
-            return null;
         Address existing = customer.getAddress();
         if (existing != null) {
             address.setId(existing.getId());

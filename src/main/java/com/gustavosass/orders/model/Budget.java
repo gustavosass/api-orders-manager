@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "budgets")
+@Table(name = "budget")
 public class Budget {
 
     @Id
@@ -24,18 +24,24 @@ public class Budget {
 
     private String number;
 
+    @Column(name = "budget_date")
     private Date budgetDate;
 
-    private Customer customer;
-
-    @Column(precision = 15, scale = 4)
+    @Column(name = "total_value", precision = 15, scale = 4)
     private BigDecimal totalValue;
 
     @Enumerated(EnumType.STRING)
     private StatusBudgetEnum status;
 
+    @Column(name = "approved_date")
     private Date approvedDate;
+
+    @Column(name = "cancelled_date")
     private Date cancelledDate;
+
+    @ManyToOne
+    private Customer customer;
+
 
 
 

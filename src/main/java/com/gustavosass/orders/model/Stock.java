@@ -14,23 +14,24 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "stocks")
+@Table(name = "stock")
 public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(precision = 15, scale = 4)
-    private BigDecimal initial_quantity;
+    @Column(name = "initial_quantity", precision = 15, scale = 4)
+    private BigDecimal initialQuantity;
 
-    @Column(precision = 15, scale = 4)
-    private BigDecimal current_quantity;
+    @Column(name = "current_quantity", precision = 15, scale = 4)
+    private BigDecimal currentQuantity;
 
-    @Column(precision = 15, scale = 4)
-    private BigDecimal cost_price;
+    @Column(name = "cost_price", precision = 15, scale = 4)
+    private BigDecimal costPrice;
 
-    private Date entry_date;
+    @Column(name = "entry_date")
+    private Date entryDate;
 
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)

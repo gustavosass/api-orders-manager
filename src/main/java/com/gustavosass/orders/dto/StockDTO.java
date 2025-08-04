@@ -13,9 +13,9 @@ import java.util.Date;
 @Builder
 public class StockDTO {
     private Long id;
-    private BigDecimal initial_quantity;
-    private BigDecimal current_quantity;
-    private BigDecimal cost_price;
-    private Date entry_date;
+    private BigDecimal initialQuantity;
+    private BigDecimal currentQuantity;
+    private BigDecimal costPrice;
+    private Date entryDate;
     private ItemDTO itemDTO;
 }

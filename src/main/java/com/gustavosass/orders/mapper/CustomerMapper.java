@@ -6,10 +6,15 @@ import com.gustavosass.orders.dto.CustomerDTO;
 import com.gustavosass.orders.dto.CustomerUpdateDTO;
 import com.gustavosass.orders.model.Address;
 import com.gustavosass.orders.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerMapper {
+
+    @Autowired
+    private AddressMapper addressMapper;
+
     public CustomerDTO toDTO(Customer customer) {
         if (customer == null)
             return null;
@@ -20,7 +25,7 @@ public class CustomerMapper {
                 .birthDate(customer.getBirthDate())
                 .phone(customer.getPhone())
                 .document(customer.getDocument())
-                .address(addressToDTO(customer.getAddress()))
+                .address(customer.getAddress() == null ? null : addressMapper.toDTO(customer.getAddress()))
                 .build();
     }
 
@@ -33,7 +38,7 @@ public class CustomerMapper {
                 .birthDate(dto.getBirthDate())
                 .phone(dto.getPhone())
                 .document(dto.getDocument())
-                .address(dtoToAddress(dto.getAddress()))
+                .address(dto.getAddress() == null ? null : addressMapper.toEntity(dto.getAddress()))
                 .build();
     }
 
@@ -46,35 +51,7 @@ public class CustomerMapper {
                 .birthDate(dto.getBirthDate())
                 .phone(dto.getPhone())
                 .document(dto.getDocument())
-                .address(dtoToAddress(dto.getAddress()))
-                .build();
-    }
-
-    public AddressDTO addressToDTO(Address address) {
-        if (address == null)
-            return null;
-        return AddressDTO.builder()
-                .id(address.getId())
-                .street(address.getStreet())
-                .number(address.getNumber())
-                .district(address.getDistrict())
-                .complement(address.getComplement())
-                .postalCode(address.getPostalCode())
-                .cityId(address.getCityId())
-                .build();
-    }
-
-    public Address dtoToAddress(AddressDTO dto) {
-        if (dto == null)
-            return null;
-        return Address.builder()
-                .id(dto.getId())
-                .street(dto.getStreet())
-                .number(dto.getNumber())
-                .district(dto.getDistrict())
-                .complement(dto.getComplement())
-                .postalCode(dto.getPostalCode())
-                .cityId(dto.getCityId())
+                .address(dto.getAddress() == null ? null : addressMapper.toEntity(dto.getAddress()))
                 .build();
     }
 }

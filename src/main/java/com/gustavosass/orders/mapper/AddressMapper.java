@@ -1,5 +1,7 @@
 package com.gustavosass.orders.mapper;
 
+import com.gustavosass.orders.model.City;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gustavosass.orders.model.Address;
@@ -10,6 +12,9 @@ import com.gustavosass.orders.dto.AddressUpdateDTO;
 @Component
 public class AddressMapper {
 
+    @Autowired
+    private CityMapper cityMapper;
+
     public AddressDTO toDTO(Address address) {
         return AddressDTO.builder()
                 .id(address.getId())
@@ -18,7 +23,7 @@ public class AddressMapper {
                 .district(address.getDistrict())
                 .complement(address.getComplement())
                 .postalCode(address.getPostalCode())
-                .cityId(address.getCityId())
+                .city(address.getCity() == null ? null : cityMapper.toDTO(address.getCity()))
                 .build();
     }
 
@@ -30,7 +35,7 @@ public class AddressMapper {
                 .district(addressDTO.getDistrict())
                 .complement(addressDTO.getComplement())
                 .postalCode(addressDTO.getPostalCode())
-                .cityId(addressDTO.getCityId())
+                .city(addressDTO.getCity() == null ? null : cityMapper.toEntity(addressDTO.getCity()))
                 .build();
     }
 
@@ -41,7 +46,9 @@ public class AddressMapper {
                 .district(addressCreateDTO.getDistrict())
                 .complement(addressCreateDTO.getComplement())
                 .postalCode(addressCreateDTO.getPostalCode())
-                .cityId(addressCreateDTO.getCityId())
+                .city(City.builder()
+                        .id(addressCreateDTO.getCityId())
+                        .build())
                 .build();
     }
 
@@ -52,7 +59,9 @@ public class AddressMapper {
                 .district(addressUpdateDTO.getDistrict())
                 .complement(addressUpdateDTO.getComplement())
                 .postalCode(addressUpdateDTO.getPostalCode())
-                .cityId(addressUpdateDTO.getCityId())
+                .city(City.builder()
+                        .id(addressUpdateDTO.getCityId())
+                        .build())
                 .build();
     }
     
